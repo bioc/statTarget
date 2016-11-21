@@ -224,8 +224,8 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   }else if(QCspan <= 0){
     message(
       "\nWarning: The QCspan was set at '0'.\n", 
-      "\nThe LOESS based generalised cross-validation was used to", 
-      "avoid overfitting the observed data\n")
+      "\nThe GCV was used to", 
+      " avoid overfitting the observed data\n")
     autoFit <- function(xl,y){
       cn <- colnames(xl)
       ####Check########
@@ -299,6 +299,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
             sum(is.na(loessDat) | as.matrix(loessDat) == 0))
   }
   dirout.uni = paste(getwd(), "/statTarget/", sep = "")
+  dirsc.ID = getwd()
   dir.create(dirout.uni)
   dirout.w = paste(getwd(), "/statTarget/shiftCor", sep="")
   dir.create(dirout.w)
@@ -382,5 +383,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   write.csv(lo_temp_all, paste(dirout.As, RSD30_CV, sep="/"))
   cat("\n\nCorrection Finished! Time: ",date())
   ##################Loess Plot########################
+  setwd(dirsc.ID)
+  tmpfilesc = paste(getwd(), "/tmp",sep="")
+  unlink(tmpfilesc, recursive=TRUE)
 }
-
