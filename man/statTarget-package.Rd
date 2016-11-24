@@ -22,7 +22,7 @@ Package: statTarget
 
 Type: package
 
-Version: 1.2.4
+Version: 1.4.1
 
 Date: 2016-07-014
 
