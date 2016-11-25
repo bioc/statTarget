@@ -256,7 +256,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
           mod <- stats::update(loe2, span = sp)
           CVspan = loessGCV(mod)[["gcv"]]
         }
-        sp <- c(seq(0.08,0.75,0.01))
+        sp <- c(seq(0.2,0.75,0.01))
         CVspan = as.matrix(lapply(sp,sploe))
         CVspan[!is.finite(as.numeric(CVspan))] <- NA
         minG <- data.frame(sp,CVspan)
