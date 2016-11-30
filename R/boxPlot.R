@@ -28,9 +28,12 @@ function(file) {
  	for (i in 2:ncol(x.x)) {
  		name = paste(getwd(), "/Univariate/BoxPlot/", colnames(x.x)[i], ".pdf", sep="")
  		pdf(name)
- 		boxplot(x.x[,i] ~ slink[,1], boxfill=c(seq(1,NoF,1)), 
+ 		boxplot(x.x[,i] ~ slink[,1], 
+ 		        #boxfill=c(seq(1,NoF,1)),
  		        ylab=colnames(x.x)[i], xlab ="Groups", border="grey30", 
  		        main = paste("Boxplot ", colnames(x.x)[i], sep=""))
+ 		stripchart(x.x[,i] ~ slink[,1],vertical = TRUE,
+ 		           method = "jitter",add = TRUE, pch = 19, col = c("#D55E00","#009E73"))
  		dev.off()
  	}
  	
