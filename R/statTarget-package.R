@@ -8,7 +8,7 @@
 #' comprehensive statistic analysis for non-targeted and targeted approaches.
 #' @details Package: statTarget
 #' @details Type: package
-#' @details Version: 1.2.4
+#' @details Version: 1.5.4
 #' @details Date: 2016-07-014
 #' @details License: GPL (>= 2)
 #' @author Hemi Luan
