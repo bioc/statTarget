@@ -1,10 +1,10 @@
 #' @name shiftCor
 #' @title shiftCor for GUI
-#' @description  shiftCor provide the QC-RLS correction for 
+#' @description  shiftCor provides the QC-RLS correction for 
 #' large scale metabolomics.
-#' @param samPeno The file with  the meta information including the sample name,
+#' @param samPeno The file with the meta information including the sample name,
 #'  batches, class and order. 
-#' @param samFile The file with  the expression information. 
+#' @param samFile The file with the expression information. 
 #' @param Frule The cut-off value for missing value filter function.
 #' @param QCspan The smoothing parameter which controls the bias-variance 
 #' tradeoff. if the QCspan is set at '0', the generalised cross-validation 
@@ -15,7 +15,7 @@
 #' @param imputeM The parameter for imputation method.(i.e., nearest neighbor 
 #' averaging, "KNN"; minimum values for imputed variables, "min", median values 
 #' for imputed variables (Group dependent) "median"). 
-#' @return A objects of shiftCor
+#' @return An object of shiftCor
 #' @examples 
 #' datpath <- system.file("extdata",package = "statTarget")
 #' samPeno <- paste(datpath,"MTBLS79_sampleList.csv", sep="/")
@@ -45,7 +45,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   
   ##.............................................
   
-  message("\n",dim(samPeno)[1]," Pheno Samples x",dim(samFile)[1], 
+  message("\n",dim(samPeno)[1]," Pheno Samples vs ",dim(samFile)[1], 
           " Profile samples",sep="")
   message("\nThe Pheno samples list (*NA, missing data from the Profile File)")
   mcdat <- samFile[,1][match(samPeno[,1],samFile[,1])]
@@ -53,7 +53,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   
   ##.............................................
   if(any(is.na(mcdat))) {
-    stop("\nMissing data from the Profile File! Check your data please!!")
+    stop("Missing data from the Profile File! Check your data please!!")
   } 
   
   if(dim(samFile)[1] - dim(samPeno)[1]>0){
@@ -61,14 +61,14 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
       "\nWarning: The sample size in Profile File is larger than Pheno File! ")
   }else if(dim(samFile)[1] - dim(samPeno)[1]<0) {
     stop(
-      "\nThe sample size in Profile File should be no less than Pheno File!
+      "The sample size in Profile File should be no less than Pheno File!
       Check your data please!!")
   }
   
   samFP <- samFile[samPeno$sample,]
   
   if(sum(is.na(samPeno$class)) <=0 ){
-    stop("\nThere were not QC sample in your data!")
+    stop("There were no QC samples in your data!")
   }
   
   samPeno_stat <- samPeno
@@ -81,10 +81,10 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   sam_seq_tmp <- samPeno_stat[-c(qc_seq_tmp),]
 
   if(sum(is.na(samPeno_stat$batch)) > 0 ){
-    stop("\nThere were NA values in batch! Check your data please!\n")
+    stop("There were missing values in batch! Check your data please!\n")
   }
   if(sum(is.na(sam_seq_tmp$class)) > 0 ){
-    stop("\nThere were NA values (ungrouped data) in sample class! 
+    stop("There were missing values (ungrouped data) in sample class! 
          Check your data please!\n")
   }
   
@@ -130,7 +130,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   classF <- as.factor(samPeno$class)
   classF = addNA(classF)
   imsamFPF = FilterMV(imsamFP,classF)
-  Frule_warning= paste("\nThe number of vaiables including", 
+  Frule_warning= paste("\nThe number of variables including", 
                        Frule*100, "% of missing value :",sep = " ")
   message(Frule_warning," ", dim(imsamFP)[2]-dim(imsamFPF)[2])
   imsamFP = as.matrix(imsamFPF)
@@ -199,12 +199,12 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
       if(length(st_QC)==0)
       {
         stop(
-          "\nWrong: the first sample must be QC sample; please check ......");
+          "the first sample must be QC sample; please check ......");
       }
       if(length(ed_QC)==0)
       {
         stop(
-          "\nWrong: the sample at the end of sequence must be QC sample; 
+          "the sample at the end of sequence must be QC sample; 
           please check ......");
       }
       qcid <- grep("QC",cn)
@@ -233,12 +233,12 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
       ed_QC<-grep("QC",cn[length(cn)])
       if(length(st_QC)==0)
       {
-        stop("Wrong: the first sample must be QC sample; please check ......");
+        stop("the first sample must be QC sample; please check ......");
       }
       if(length(ed_QC)==0)
       {
         stop(
-          "Wrong: the sample at the end of sequence must be QC sample; 
+          "the sample at the end of sequence must be QC sample; 
           please check ......");
       }
       qcid <- grep("QC",cn)
@@ -256,7 +256,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
           mod <- stats::update(loe2, span = sp)
           CVspan = loessGCV(mod)[["gcv"]]
         }
-        sp <- c(seq(0.08,0.75,0.01))
+        sp <- c(seq(0.2,0.75,0.01))
         CVspan = as.matrix(lapply(sp,sploe))
         CVspan[!is.finite(as.numeric(CVspan))] <- NA
         minG <- data.frame(sp,CVspan)
@@ -295,7 +295,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
                                rowmax = 0.99, colmax = 0.99, maxp = 15000)
     loessDat <- mvd2$data
     message(
-      "\nThe number of NA value in Data Profile after Loess Correction (KNN): ",
+      "\nThe number of NA value in Data Profile after QC-RLS Correction (KNN): ",
             sum(is.na(loessDat) | as.matrix(loessDat) == 0))
   }
   dirout.uni = paste(getwd(), "/statTarget/", sep = "")
@@ -308,7 +308,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   dirout.As = paste(getwd(), "/statTarget/shiftCor/After_shiftCor", sep="")
   dir.create(dirout.As)
   ########### Out plot of each peak ############
-  cat("\nHigh-resulution images output...")
+  cat("\nHigh-resolution images output...")
           
   for(i in 1 :dim(dat)[1]){
     loplot(dat,loessDat,i)
