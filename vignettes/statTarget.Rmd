@@ -31,13 +31,13 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 `Quality Control (QC)` has been considered as an essential step in the
 metabolomics platform for high reproducibility and accuracy of data. 
-The secondary use of the same QC samples is more and more acceptable for 
+The repetitive use of the same QC samples is more and more accepted for 
 correcting the signal drift during the sequence of MS run order, 
-especially benefiting to improve the quality of data in multi-block 
-experiments of `large-scale metabolomic study`. statTarget is easy use tool 
+especially beneficial to improve the quality of data in multi-block 
+experiments of `large-scale metabolomic study`. statTarget is an easy use tool 
 to provide a graphical user interface for `quality control based
  signal shift correction`, integration of metabolomic data from `multi-batch 
-experiments`, and the comprehensive statistic analysis in 
+experiments`, and comprehensive statistic analysis in 
 non-targeted or targeted metabolomics.
 This document is intended to guide the user to use `statTargetGUI` to 
 perform metabolomic data analysis. Note that this document will 
@@ -64,16 +64,16 @@ Download it from https://www.xquartz.org.
 
 # GUI overview
 
-An easy to use tool provide a graphical user interface (Figure 1) for 
+An easy to use tool providing a graphical user interface (Figure 1) for 
 quality control based signal correction, integration of metabolomic 
-data from multiple batches, and the comprehensive statistic analysis 
+data from multiple batches, and comprehensive statistic analysis 
 for non-targeted and targeted approaches. 
 (URL: https://github.com/13479776/statTarget)
 
 ## What does statTarget offer statistically
 
-The main GUI of statTarget has two basic components. The first components 
-is shift correction. It includes quality control-based robust LOESS signal 
+The main GUI of statTarget has two basic components. The first component 
+is Shift Correction. It includes quality control-based robust LOESS signal 
 correction (QC-RLSC) that is a widely accepted method for quality control 
 based signal correction and integration of metabolomic data from multiple 
 analytical batches (Dunn WB., et al. 2011; Luan H., et al. 2015). The second 
@@ -149,7 +149,7 @@ a span that is too small then there will be a large variance.
 If the span is too large, a large bias will be produced. 
 The default value of QCspan is set at '0', the generalised 
 cross-validation will be performed for choosing a good value, 
-avoiding overfitting the observed data. (Default: 0) 
+avoiding overfitting of the observed data. (Default: 0) 
 
 
 `degree`
@@ -297,7 +297,7 @@ The RSD distribution (right): The relative standard deviation of peaks in the sa
 ```
 **Data File Checking Start..., Time:  Fri Sep 16 14:34:15 2016 **
 
-172 Pheno Samples x172 Profile samples
+172 Pheno Samples vs 172 Profile samples
 
 The Pheno samples list (*NA, missing data from the Profile File)
 
@@ -326,7 +326,7 @@ Metabolites     48
 
 The number of NA value in Data Profile before QC-RLSC: 336
 
-The number of vaiables including 80 % of missing value : 0
+The number of variables including 80 % of missing value : 0
 
 **Step 2: Imputation start...**
 
@@ -338,11 +338,11 @@ Imputation Finished!
 
 Warning: The QCspan was set at '0'.
 
-The LOESS based generalised cross-validation was used toavoid overfitting the observed data
+The generalised cross-validation was used to avoid overfitting the observed data
 
   |========================================================================| 100%
 
-**High-resulution images output...**
+**High-resolution images output...**
 
 Calculation of CV distribution of raw peaks (QC)...
 
@@ -408,7 +408,7 @@ statTarget -- statAnalysis
    ----- RForest # Random Forest
    ----- ROC # receiver operating characteristic curve
    ----- Shapiro_Tests 
-   ----- Significant_Variables
+   ----- Significant_Variables # The Peaks with P-value < 0.05 
    ----- Volcano_Plots
    ----- WelchTest  # For normally distributed variables
 ```
@@ -428,13 +428,13 @@ statTarget -- statAnalysis
 
 The number of NA value in Data Profile: 1
 
-The number of vaiables including 80 % of missing value : 0
+The number of variables including 80 % of missing value : 0
 
 **Step 2: Imputation start... Time:  Fri Sep 16 14:30:18 2016**
 
-The number of NA value in Data Profile after the initialimputation: 1
+The number of NA value in Data Profile after the initial imputation: 1
 
-The number of NA value in Data Profile afterthe second imputation (KNN): 0
+The number of NA value in Data Profile after the second imputation (KNN): 0
 
 Imputation Finished!
 
