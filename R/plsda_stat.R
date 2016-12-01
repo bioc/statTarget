@@ -247,7 +247,7 @@ if (nrow(P$Yloadings) > 2) {
   vip <- sqrt(nrow(SSW) * apply(SSW, 1, cumsum) / cumsum(SS))
   colnames(vip) <- colnames(x.x)
   vipstat = paste(dirout, "PLSDA_VIP_", scaling, ".csv", sep="")
-  write.table(vip,vipstat)
+  write.table(t(vip),vipstat)
   }
 }
 
