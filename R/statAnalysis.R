@@ -1,8 +1,8 @@
 #' @name statAnalysis
 #' @title statAnalysis for GUI
-#' @description statAnalysis provide the statistical analysis for metabolomics
+#' @description statAnalysis provides the statistical analysis for metabolomics
 #'  data or others.
-#' @param file The file with  the expression information. 
+#' @param file The file with the expression information. 
 #' @param Frule The cut-off value for missing value filter function.
 #' @param imputeM The parameter for imputation method.(i.e., nearest neighbor 
 #' averaging, "KNN"; minimum values for imputed variables, "min", median values
@@ -42,7 +42,6 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
                           Labels = TRUE, upper.lim = 1.5, lower.lim = 0.5, 
                           sig.lim = 0.05) {
   dirout.uni = paste(getwd(), "/statTarget/", sep = "")
-  dir.ID = getwd()
   dir.create(dirout.uni)
   dirout.uni = paste(getwd(), "/statTarget/statAnalysis/", sep = "")
   dir.create(dirout.uni)
@@ -69,7 +68,7 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
   classF <- as.factor(imdat[,2])
   #classF = addNA(classF)
   imdatF = FilterMV(imdat,classF)
-  Frule_warning= paste("\nThe number of vaiables including", Frule*100, 
+  Frule_warning= paste("\nThe number of variables including", Frule*100, 
                        "% of missing value :",sep = " ")
   message(Frule_warning," ", dim(imdat)[2]-dim(imdatF)[2])
   #imsamFP = imdatF
@@ -115,7 +114,7 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
     mvd2 <- impute::impute.knn(inputedData[,1:ncol(inputedData)],
                                rowmax = 0.99, colmax = 0.99, maxp = 15000)
     inputedData <- mvd2$data
-    message( "\nThe number of NA value in Data Profile after", 
+    message( "\nThe number of NA value in Data Profile after ", 
              "the second imputation (KNN): ",
             sum(is.na(inputedData) | as.matrix(inputedData) == 0))
   }
@@ -186,7 +185,7 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
     dev.off()
     #message( "\nPreglog Finished!")
   } else {
-    message( "\nPre-glog NONE!")
+    message( "\nWarning: glog transformation skipped!")
   }
   
   ##.....................................
@@ -204,7 +203,7 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
       if(nvarRF > ncol(logf)-2)
       {
         stop(
-          "\nDo not set the value of nvarRF higher than the number of varibles")
+         "Do not set the value of nvarRF higher than the number of variables")
       }
       explore_data_stat(logfile,scaling,normalize = TRUE)
       Plot_pca_score_stat(pcax,pcay,scaling,Labels)
@@ -233,7 +232,7 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
       if(nvarRF > ncol(logFF)-2)
       {
         stop(
-          "Do not set the value of nvarRF higher than the number of varibles")
+          "Do not set the value of nvarRF higher than the number of variables")
       }
       
       explore_data_stat(prefile,scaling,normalize = TRUE)
@@ -255,12 +254,9 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
     }
     #message(, "\\Ttest.multi done!",date())
     message("\nStatistical Analysis Finished! Time: ",date())
-    tmpfile2 = paste(getwd(), "/tmp",sep="")
-    #cat(tmpfile2)
-    unlink(tmpfile2, recursive=TRUE)
-    tmpfile3 = paste(getwd(), "/Univariate/Groups",sep="")
-    #cat(tmpfile3)
-    unlink(tmpfile3, recursive=TRUE)
+    tmpfile = paste(getwd(), "/tmp/",sep="")
+    unlink(tmpfile, recursive=TRUE)
+    tmpfiles = paste(getwd(), "/Groups/",sep="")
+    unlink(tmpfiles, recursive=TRUE)
   }
-  setwd(dir.ID)
 }
