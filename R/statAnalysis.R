@@ -182,6 +182,7 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
     plot(1:dim(log_rankII)[1],log_rankII[,2],pch= 21,
          bg="green",col=rgb(0,0,0,100,maxColorValue=255),
          xlab="rank of mean intensity",ylab="standard deviation")
+    title("Variance stabilization with GLOG method",line = -3, outer = TRUE)
     dev.off()
     #message( "\nPreglog Finished!")
   } else {
