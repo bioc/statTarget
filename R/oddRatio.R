@@ -61,7 +61,7 @@ oddRatio <- function(file) {
         IJM <- as.matrix(IJ[,2:ncol(IJ)])
         outFactor <-as.factor(IJ[,1])
         logit_or <- function(outcome,a){
-                    glm.log <- glm(outcome~scale(a),
+                    glm.log <- glm(outcome~scale(a),control = list(maxit = 50),
                                    family=binomial(link="logit"))
                     res <- summary(glm.log)$coefficients[2,1:2]
                     p <- summary(glm.log)$coefficients[2,4]
