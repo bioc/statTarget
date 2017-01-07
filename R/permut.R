@@ -10,7 +10,8 @@ permut <-
       Y <-  get("Y", envir=env) 
       file <- get("file", envir=env) 
       sid <- sample(length(Y),length(Y))
-      p1=pls::plsr(Y[sid]~X,data = file, ncomp = 2, validation = "CV",method ="oscorespls")
+      p1=pls::plsr(Y[sid]~X,data = file, ncomp = 2, validation = "CV",
+                   method ="oscorespls")
       q2r2=pls::R2(p1,estimate = "all")
       corrY <- cor(Y[sid],Y)
       #r2_cum <- cum(r2)

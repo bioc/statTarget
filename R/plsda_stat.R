@@ -229,13 +229,13 @@ plsda_stat <-
       #message(date(),"\\permutation time Finished!")
   } 
     if (leng > 2) { 
-        message( "\nWarning: More than two groups, Permutation Test Free!")
+        message( "\nWarning: More than two groups, permutation test skipped!")
     }
     #detach()
     # PERMUTATION ..................................................
  #VIP
 if (nrow(P$Yloadings) > 2) {
-  message( "\nWarning: VIP was only implemented for single-response models!")
+  message( "\nWarning: VIP was only implemented for the single-response model!")
 } else {
   if (P$method != "oscorespls")
     stop("\nOnly implemented for orthogonal scores algorithm.  
