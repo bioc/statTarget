@@ -1,7 +1,7 @@
 Package: statTarget
 Type: Package
 Title: Statistical Analysis of Metabolite Profile
-Version: 1.4.8
+Version: 1.4.9
 Author: Hemi Luan
 Maintainer: Hemi Luan <hemi.luan@gmail.com>
 Depends: R (>= 3.3.0)
@@ -10,7 +10,7 @@ Imports:
         pls,impute,gWidgets2,gWidgets2RGtk2
 VignetteBuilder: knitr
 Suggests: testthat, BiocStyle, knitr, rmarkdown
-Description: An easy to use tool provide a graphical user interface for
+Description: An easy to use tool provides a graphical user interface for
         quality control based shift signal correction, integration of
         metabolomic data from multi-batch experiments, and the
         comprehensive statistic analysis in non-targeted or targeted

@@ -10,7 +10,7 @@ statAnalysis(file, Frule = 0.8, imputeM = "KNN", glog = TRUE,
   lower.lim = 0.5, sig.lim = 0.05)
 }
 \arguments{
-\item{file}{The file with  the expression information.}
+\item{file}{The file with the expression information.}
 
 \item{Frule}{The cut-off value for missing value filter function.}
 
@@ -56,7 +56,7 @@ values in the Volcano plot.}
 A object of statAnalysis
 }
 \description{
-statAnalysis provide the statistical analysis for metabolomics
+statAnalysis provides the statistical analysis for metabolomics
  data or others.
 }
 \examples{

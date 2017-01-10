@@ -55,7 +55,6 @@ Dependent on R (>= 3.3.0)
 Load the package with biocLite():
 
 ```{r subsetting-GTuples4, eval = TRUE, echo = TRUE}
-chooseBioCmirror(ind=6)
 source("https://bioconductor.org/biocLite.R")
 biocLite("statTarget")
 ```

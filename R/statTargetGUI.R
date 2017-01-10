@@ -37,7 +37,7 @@ statTargetGUI <- function() {
   #assign("traitname",NA, envir=.qtlnetworkr)
   #assign("chromosome",NA, envir=.qtlnetworkr)
   widgets<-list()
-  win = gWidgets2::gwindow("Wellcome to statTarget")#, width=700, height=400)
+  win = gWidgets2::gwindow("Welcome to statTarget")#, width=700, height=400)
   #gf <- gframe("frame", horizontal=FALSE, container=win)
   #font(win) <- list(weight="light", color = "red")
   gp = gWidgets2::ggroup(horizontal=FALSE, container=win, expand=TRUE) 
