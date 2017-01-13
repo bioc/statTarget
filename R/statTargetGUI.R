@@ -1,5 +1,5 @@
-#' @name StatTargetGUI 
-#' @title StatTargetGUI for GUI
+#' @name statTargetGUI 
+#' @title statTargetGUI for GUI
 #' @description the statTarget GUI session. The Shift Correction and 
 #' Statistical Analysis session being used by statTarget. Will restart 
 #' statTarget if it died for some reason. Features of the package statTarget 

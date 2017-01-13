@@ -22,9 +22,9 @@ Package: statTarget
 
 Type: package
 
-Version: 1.4.5
+Version: 1.4.10
 
-Date: 2016-07-014
+Date: 2017-01-09
 
 License: GPL (>= 2)
 }

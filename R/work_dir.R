@@ -39,6 +39,7 @@
 #' @importFrom graphics box
 #' @importFrom graphics identify
 #' @importFrom graphics lines
+#' @importFrom graphics title
 #' @importFrom randomForest randomForest
 #' @importFrom randomForest MDSplot
 #' @importFrom randomForest importance

@@ -35,7 +35,7 @@ oddRatio <- function(file) {
     }
   }
   NoF = nrow(g)
-  dirout.w = paste(getwd(), "/Univariate/oddratio", sep = "")
+  dirout.w = paste(getwd(), "/Univariate/oddRatio", sep = "")
   dir.create(dirout.w)
   for (i in 1:NoF) {
     for (j in 1:NoF) {

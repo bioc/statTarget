@@ -21,7 +21,7 @@ wmw <- function(file) {
   else {g=matrix(c(g,sorted[i,1]), ncol=1)}
  }
 NoF=nrow(g)
- dirout.wm = paste(getwd(), "/Univariate/Mann-Whitney_Tests/", sep="")
+ dirout.wm = paste(getwd(), "/Univariate/MannWhitneyTests/", sep="")
  dir.create(dirout.wm)
  for (i in 1:NoF) {
   for (j in 1:NoF) { 

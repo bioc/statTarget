@@ -50,7 +50,7 @@ for (i in 1:NoF) {
     Wij = matrix(Wij[,-1], ncol=1)
     wmwp = paste("WMWTest_pvalues_",ExcName(i,slink),"vs",
                  ExcName(j,slink),".csv", sep="")
-    wmw.pwd = paste(getwd(), "/Univariate/Mann-Whitney_Tests/", wmwp, sep="")
+    wmw.pwd = paste(getwd(), "/Univariate/MannWhitneyTests/", wmwp, sep="")
     WMWp = read.csv(wmw.pwd, header=TRUE)
     WMWp = matrix(WMWp[,-1], ncol=1)
     fin=ncol(sorted)-1
