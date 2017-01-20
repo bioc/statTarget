@@ -29,6 +29,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   samPeno <- read.csv(samPeno, header=TRUE, check.names = FALSE,
                       stringsAsFactors = FALSE)
   samPeno <- as.data.frame(samPeno)
+  samPeno <- plyr::arrange(samPeno,order)
   samFile <- read.csv(samFile,header=FALSE, check.names = FALSE,
                       stringsAsFactors = FALSE)
   samFile <- t(samFile)
@@ -61,8 +62,8 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
       "\nWarning: The sample size in Profile File is larger than Pheno File! ")
   }else if(dim(samFile)[1] - dim(samPeno)[1]<0) {
     stop(
-      "The sample size in Profile File should be no less than Pheno File!
-      Check your data please!!")
+      "The sample size in Profile File should be no less than Pheno File!",
+      " Check your data please!!")
   }
   
   samFP <- samFile[samPeno$sample,]
@@ -96,14 +97,14 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
                          by=list(Category=samPeno_stat$batch), FUN=length)
   colnames(data_stat) <-c("Class","No.")
   colnames(batch_stat) <-c("Batch","No.")
-  message("\nPheno information:")
+  message("\nPhenotype information:")
   print(data_stat)
   print(batch_stat)
   num_sam <- dim(samFile[,2:ncol(samFile)])
   num_sam <- data.frame(num_sam)
-  colnames(num_sam) <- c("No.")
+  colnames(num_sam) <- c("no.")
   rownames(num_sam) <- c("QC and samples","Metabolites")
-  message("\nProfile information:")
+  message("\nMetabolic profile information:")
   print(num_sam)
   
   
@@ -351,7 +352,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   QC_temp <- lo_temp[-c(QC_temp),]
   lo_temp_sam <- QC_temp[,-c(2,4)]
   rownames(lo_temp_sam) <- NULL
-  RSD30_CV=paste("shift_sample_loess",".csv", sep="")
+  RSD30_CV=paste("shift_sample_cor",".csv", sep="")
   write.csv(lo_temp_sam, paste(dirout.As, RSD30_CV, sep="/"))
   
   ############loess sample Cal#############
@@ -367,7 +368,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   QC_temp <- lo_temp[c(QC_temp),]
   lo_temp_qc <- QC_temp[,-c(3,4)]
   rownames(lo_temp_qc) <- NULL
-  RSD30_CV=paste("shift_QC_loess",".csv", sep="")
+  RSD30_CV=paste("shift_QC_cor",".csv", sep="")
   write.csv(lo_temp_qc, paste(dirout.As, RSD30_CV, sep="/"))
   cat("\n\nCalculation of CV distribution of corrected peaks (QC)...\n\n")
   #Rsdist_QC_cor=RsdCal(lo_temp_qc,DistPattern = TRUE)
@@ -379,7 +380,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   RSDdist(Rsdist_sam_raw,Rsdist_sam_cor,Rsdist_QC_raw,Rsdist_QC_cor)
   lo_temp_all <- lo_temp[,-c(2,4)]
   rownames(lo_temp_all) <- NULL
-  RSD30_CV=paste("shift_all_loess",".csv", sep="")
+  RSD30_CV=paste("shift_all_cor",".csv", sep="")
   write.csv(lo_temp_all, paste(dirout.As, RSD30_CV, sep="/"))
   cat("\n\nCorrection Finished! Time: ",date())
   ##################Loess Plot########################

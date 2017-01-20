@@ -95,13 +95,17 @@ graphics::plot(logfc, logpv, col=colpv, cex= 1.2,pch = 19,
                ylab = "Log10 (Pvalue)", 
                main = paste("Volcano Plot ",ExcName(i,slink), 
                             " vs ", ExcName(j,slink), sep=""), 
-               sub = paste("(Variables in Blue are significant",
+               sub = paste("(Variables in Blue are significant", 
                            "(Pvalue < ",sig.lim,") and showed Fold Changes > ",
                            upper.lim," or < ",lower.lim,")", sep = ""))
 if(length(colnames(sorted.x)[grep("navy",colpv)]) > 0){
 text(logfc[grep("navy",colpv)], logpv[grep("navy",colpv)], 
      labels=colnames(sorted.x)[grep("navy",colpv)], cex=0.6,
      pos=pospv, col=colpv[grep("navy",colpv)])
+  Vol_sig = paste(dirout.vol, "VolcanoMarker_", ExcName(i,slink), "vs", 
+            ExcName(j,slink), ".csv", sep="")
+  dirout.name =c(colnames(sorted.x)[grep("navy",colpv)])
+  write.csv(dirout.name, Vol_sig)
    } else {
  }
 axis(2, at = c(-1,150), pos=c(lower,0), col="blue", lwd=1,lty= 2)

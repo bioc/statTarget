@@ -12,7 +12,7 @@ statTarget()
 A description of statTarget
 }
 \description{
-An easy to use tool provide graphical user interface 
+An easy to use tool provides graphical user interface 
 for quality control based signal correction, integration of 
 metabolomic data from multiple batches, and the 
 comprehensive statistic analysis for non-targeted and targeted approaches.
@@ -22,9 +22,9 @@ Package: statTarget
 
 Type: package
 
-Version: 1.2.4
+Version: 1.5.6
 
-Date: 2016-07-014
+Date: 2017-01-09
 
 License: GPL (>= 2)
 }

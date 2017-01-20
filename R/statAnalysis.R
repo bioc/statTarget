@@ -42,6 +42,7 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
                           Labels = TRUE, upper.lim = 1.5, lower.lim = 0.5, 
                           sig.lim = 0.05) {
   dirout.uni = paste(getwd(), "/statTarget/", sep = "")
+  dirsc.IDA = getwd()
   dir.create(dirout.uni)
   dirout.uni = paste(getwd(), "/statTarget/statAnalysis/", sep = "")
   dir.create(dirout.uni)
@@ -182,6 +183,7 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
     plot(1:dim(log_rankII)[1],log_rankII[,2],pch= 21,
          bg="green",col=rgb(0,0,0,100,maxColorValue=255),
          xlab="rank of mean intensity",ylab="standard deviation")
+    graphics::title("Variance stabilization with GLOG method",line = -3, outer = TRUE)
     dev.off()
     #message( "\nPreglog Finished!")
   } else {
@@ -258,5 +260,6 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
     unlink(tmpfile, recursive=TRUE)
     tmpfiles = paste(getwd(), "/Groups/",sep="")
     unlink(tmpfiles, recursive=TRUE)
+    setwd(dirsc.IDA)
   }
 }
