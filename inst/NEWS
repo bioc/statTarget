@@ -1,0 +1,19 @@
+CHANGES IN VERSION 1.5.6
+------------------------
+
+NEW FEATURES
+
+    o transX and transCode was added to generate statTarget inputs from 
+    Mass Spectrometry Data softwares, like XCMS.
+
+
+CHANGES IN VERSION 1.4.10
+------------------------
+
+NEW FEATURES
+
+    o New outputs for biomarkers in Volcano plot
+
+BUG FIXES
+    
+    o Fixed the spelling problems
