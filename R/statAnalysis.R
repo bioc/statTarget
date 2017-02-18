@@ -49,18 +49,20 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
   dat <- read.csv(file,header=TRUE)
   cat("\n\nstatTarget: statistical analysis start... Time: ", date(),  
       "\n\nStep 1: Evaluation of missing value...")
-  #dat <- as.matrix(dat)
-  #dat[dat==0] <- NA
-  message( "\nThe number of NA value in Data Profile: ",
-          sum(is.na(dat) | as.matrix(dat) == 0))
+  
   imdat <- dat
+  imdat[imdat == 0 ] <- NA
+  
+  
+  message( "\nThe number of NA value in Data Profile: ",
+          sum(is.na(dat)))
   #############Filter miss value###################
   
   FilterMV = function(m,degree) {
     dx <- c() 
     for(i in 1:ncol(m)){
       freq <- as.vector(tapply(m[,i], degree, function(x){
-        sum(is.na(x) | as.matrix(x) == 0)/length(x)}))
+        sum(is.na(x))/length(x)}))
       if(sum(freq > Frule) > 0) dx <- c(dx , i)
     } 
     if(length(dx) >0) m <- m[,-dx]
@@ -78,25 +80,36 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
   imdatF <- as.matrix(imdatF)
   ##############impute missing value#################
   cat("\nStep 2: Imputation start... Time: ", date())
+  
   if(imputeM == "KNN"){
     #require(impute)
     mvd <- impute::impute.knn(imdatF[,3:ncol(imdatF)],rowmax = 0.99, 
                               colmax = 0.99, maxp = 15000)
     inputedData <- mvd$data
   }else if(imputeM == "min"){
-    inputedData <- apply(imdatF[,3:ncol(imdatF)],2,function(y){
-      y[is.na(y) | y<=0] <- min(y[y>0],na.rm = TRUE)
-      y})    
-    #inputedData <- t(inputedData)
-  }else if(imputeM == "median"){
-    missvalue <- function(x,group) {
-      x[is.na(x) == TRUE ] <- 0
+    
+    minValue <- function(x,group) {
       group = as.factor(as.numeric(group))
       for (i in 1:dim(x)[1]){  
         for(j in 3:dim(x)[2]){
-          if(x[i,j] == 0 | sum(is.na(x[i,j])) >= 1){
-            #x[i,j][is.na(x[i,j]) == TRUE ] <- 0
-            x[i,j] <- tapply(as.numeric(x[,j]),group,median)[group[i]]
+          if(is.na(x[i,j]) == TRUE ){
+            x[i,j] <- tapply(as.numeric(x[,j]),group,min,na.rm=TRUE)[group[i]]
+          }
+        }
+      } 
+      return(x)
+    }
+    inputedData = minValue(imdatF,classF)
+    inputedData = inputedData[,-c(1,2)]
+    
+  }else if(imputeM == "median"){
+    
+    missvalue <- function(x,group) {
+      group = as.factor(as.numeric(group))
+      for (i in 1:dim(x)[1]){  
+        for(j in 3:dim(x)[2]){
+          if(is.na(x[i,j]) == TRUE ){
+          x[i,j] <- tapply(as.numeric(x[,j]),group,median,na.rm=TRUE)[group[i]]
           }
         }
       } 
@@ -107,17 +120,16 @@ statAnalysis <- function (file, Frule = 0.8,imputeM = "KNN", glog = TRUE,
   }
   message( "\nThe number of NA value in Data Profile after the initial", 
            "imputation: ",
-          sum(is.na(inputedData)| as.matrix(inputedData) == 0))
+          sum(is.na(inputedData)))
   
-  if(sum(is.na(inputedData) | as.matrix(inputedData) == 0) > 0)
+  if(sum(is.na(inputedData)) > 0)
   {  
-    inputedData[inputedData==0] <- NA
     mvd2 <- impute::impute.knn(inputedData[,1:ncol(inputedData)],
                                rowmax = 0.99, colmax = 0.99, maxp = 15000)
     inputedData <- mvd2$data
     message( "\nThe number of NA value in Data Profile after ", 
              "the second imputation (KNN): ",
-            sum(is.na(inputedData) | as.matrix(inputedData) == 0))
+            sum(is.na(inputedData)))
   }
   
   message("\nImputation Finished!")

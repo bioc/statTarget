@@ -112,8 +112,10 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   samFP[samFP==0] <- NA
   cat("\nstatTarget: shiftCor start...Time: ",date(), 
       "\n\nStep 1: Evaluation of missing value...")
+  
   message("\nThe number of NA value in Data Profile before QC-RLSC: ",
-          sum(is.na(samFP) | as.matrix(samFP) == 0))
+          sum(is.na(samFP)))
+  
   imsamFP <- samFP
   #############Filter miss value###################
   
@@ -121,7 +123,7 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
     dx <- c() 
     for(i in 1:ncol(m)){
       freq <- as.vector(tapply(m[,i], degree, function(x){
-        sum(is.na(x) | as.matrix(x) == 0)/length(x)}))
+        sum(is.na(x))/length(x)}))
       if(sum(freq > Frule) > 0) dx <- c(dx , i)
     } 
     if(length(dx) >0) m <- m[,-dx]
@@ -144,34 +146,47 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
                               rowmax = 0.99, colmax = 0.99, maxp = 15000)
     inputedData <- mvd$data
   }else if(imputeM == "min"){
-    inputedData <- apply(imsamFP[,2:ncol(imsamFP)],2,function(y){
-      y[is.na(y) | y<=0] <- min(y[y>0],na.rm = TRUE)
-      y})    
-    #inputedData <- t(inputedData)
-  }else if(imputeM == "median"){
-    missvalue <- function(x,group) {
-      x[is.na(x) == TRUE ] <- 0
+    
+    minValue <- function(x,group) {
       group = as.factor(as.numeric(group))
       for (i in 1:dim(x)[1]){  
-        for(j in 2:dim(x)[2]){
-          if(x[i,j] == 0 | sum(is.na(x[i,j])) >= 1){
-            #x[i,j][is.na(x[i,j]) == TRUE ] <- 0
-            x[i,j] <- tapply(as.numeric(x[,j]),group,median)[group[i]]
+        for(j in 3:dim(x)[2]){
+          if(is.na(x[i,j]) == TRUE ){
+            x[i,j] <- tapply(as.numeric(x[,j]),group,min,na.rm=TRUE)[group[i]]
           }
         }
       } 
       return(x)
-     }
+    }
+    inputedData = missvalue(imsamFP,classF)
+    inputedData = inputedData[,-1]
+    
+  }else if(imputeM == "median"){
+    
+    missvalue <- function(x,group) {
+      group = as.factor(as.numeric(group))
+      for (i in 1:dim(x)[1]){  
+        for(j in 3:dim(x)[2]){
+          if(is.na(x[i,j]) == TRUE ){
+           x[i,j] <- tapply(as.numeric(x[,j]),group,median,na.rm=TRUE)[group[i]]
+          }
+        }
+      } 
+      return(x)
+    }
+    
+    cat("\n","The imputation method was set at 'median'")
+    
     inputedData = missvalue(imsamFP,classF)
     inputedData = inputedData[,-1]
   }
   message(
     "\nThe number of NA value in Data Profile after the initial imputation: ",
-          sum(is.na(inputedData) | as.matrix(inputedData) == 0))
+          sum(is.na(inputedData)))
   
-  if(sum(is.na(inputedData) | as.matrix(inputedData) == 0) > 0)
+  if(sum(is.na(inputedData)) > 0)
   {  
-    inputedData[inputedData==0] <- NA
+    #inputedData[inputedData==0] <- NA
     mvd2 <- impute::impute.knn(inputedData[,1:ncol(inputedData)],
                                rowmax = 0.99, colmax = 0.99, maxp = 15000)
     inputedData <- mvd2$data
@@ -286,17 +301,18 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
   }
  
 ###############
-  loessDat1 <- apply(loessDat, 2,function(x) ifelse(x<0, 0, x))
+  #loessDat1 <- apply(loessDat, 2,function(x) ifelse(x<0, 0, x))
+  loessDat[loessDat <= 0 ] <- NA
   
-  if(sum(is.na(loessDat) | as.matrix(loessDat) == 0) > 0)
+  
+  if(sum(is.na(loessDat)) > 0)
   {  
-    loessDat[loessDat==0] <- NA
     mvd2 <- impute::impute.knn(loessDat[,1:ncol(loessDat)], 
                                rowmax = 0.99, colmax = 0.99, maxp = 15000)
     loessDat <- mvd2$data
     message(
       "\nThe number of NA value in Data Profile after QC-RLS Correction (KNN): ",
-            sum(is.na(loessDat) | as.matrix(loessDat) == 0))
+            sum(is.na(loessDat)))
   }
   dirout.uni = paste(getwd(), "/statTarget/", sep = "")
   dirsc.ID = getwd()
