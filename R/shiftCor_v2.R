@@ -302,7 +302,11 @@ shiftCor <- function(samPeno,samFile,Frule = 0.8,QCspan = 0.75,
  
 ###############
   #loessDat1 <- apply(loessDat, 2,function(x) ifelse(x<0, 0, x))
-  loessDat[loessDat <= 0 ] <- NA
+  loessDat <- as.matrix(loessDat)
+  if (length(loessDat[loessDat < 0L]) >0){
+    loessDat[loessDat < 0L] <- 0
+  }
+  loessDat[loessDat == 0L ] <- NA
   
   
   if(sum(is.na(loessDat)) > 0)
