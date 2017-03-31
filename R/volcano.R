@@ -24,44 +24,37 @@ dirout.vol = paste(getwd(), "/Univariate/Volcano_Plots/", sep="")
 for (i in 1:NoF) {
   for (j in 1:NoF) {
    if (i < j) {
-    ni=paste("r.",ExcName(i,slink),".csv",sep="")
-    nj=paste("r.",ExcName(j,slink),".csv",sep="")
-    pwdi = paste(getwd(), "/Univariate/Groups/", ni, sep="")
-    pwdj = paste(getwd(), "/Univariate/Groups/", nj, sep="")
+    ni=paste("bStat_",ExcName(i,slink),".csv",sep="")
+    nj=paste("bStat_",ExcName(j,slink),".csv",sep="")
+    #pwdi = paste(getwd(), "/Univariate/Groups/", ni, sep="")
+    #pwdj = paste(getwd(), "/Univariate/Groups/", nj, sep="")
+    pwdi = paste(getwd(), "/bstat.Test/", ni, sep="")
+    pwdj = paste(getwd(), "/bstat.Test/", nj, sep="")
     pv = paste(getwd(), "/Univariate/Pvalues/Pvalues_", 
                ExcName(i,slink), "vs", ExcName(j,slink), ".csv", sep="")
+    
+    
     I=read.csv(pwdi, header=TRUE)
     J=read.csv(pwdj, header=TRUE)
-    I = I[,-1]
-    J = J[,-1]
-meanI = matrix(colMeans(I), ncol=ncol(I))
-meanJ = matrix(colMeans(J), ncol=ncol(J))
-MeanI = matrix(rep(NA, ncol(I)), nrow=1)
-MeanJ = matrix(rep(NA, ncol(I)), nrow=1)
-  for (m in 1:ncol(I)) {
-    if (meanI[,m] < 0 | meanJ[,m] < 0) {
-      MeanI[,m] = 1
-      MeanJ[,m] = 1
-    } else {
-	MeanI[,m] = meanI[,m]
-	MeanJ[,m] = meanJ[,m]
-      }
-  }
-	
-FC = matrix(MeanI/MeanJ, nrow=ncol(I))
-rownames(FC) = colnames(I)
+    mI = I[,"Mean"]
+    mJ = J[,"Mean"]
+
+    FC = matrix(abs(mI/mJ), ncol = 1)
+rownames(FC) = I[,1]
+colnames(FC) <- "foldChanges"
 fc.csvfile = paste("Fold_Change_", ExcName(i,slink), "vs",
                    ExcName(j,slink), ".csv", sep="")
 write.csv(FC, paste(dirout.fc, fc.csvfile, sep=""))
 PV = read.csv(pv, header=TRUE)
 PV = matrix(PV[,-1], ncol=1)
+PV[is.na(PV)] <- 1
 logfc = log2(FC)
 logpv = -log10(PV)
 
 upper <- log2(upper.lim)
 lower <- log2(lower.lim)
 sig <- -log10(sig.lim)
-colpv=matrix(rep(NA, nrow(PV)), ncol=1)
+colpv=matrix(rep(NA, nrow(PV)), ncol=1);rownames(colpv) <- rownames(logfc)
   for (p in 1:nrow(PV)) {
     if (logfc[p,] < lower | logfc[p,] > upper) {
       if (logpv[p,] > sig) {
@@ -91,22 +84,24 @@ pospv=matrix(rep(NA, nrow(PV)), ncol=1)
    }
 pdf(V)
 graphics::plot(logfc, logpv, col=colpv, cex= 1.2,pch = 19, 
-               xlim=c(-max.fc,max.fc), xlab = "Log2 (Fold Change)", 
-               ylab = "Log10 (Pvalue)", 
+               xlim=c(-max.fc,max.fc), xlab = "log2 (Fold Change)", 
+               ylab = "-log10 (Pvalue)", 
                main = paste("Volcano Plot ",ExcName(i,slink), 
                             " vs ", ExcName(j,slink), sep=""), 
                sub = paste("(Variables in Blue are significant", 
                            "(Pvalue < ",sig.lim,") and showed Fold Changes > ",
                            upper.lim," or < ",lower.lim,")", sep = ""))
 if(length(colnames(sorted.x)[grep("navy",colpv)]) > 0){
-text(logfc[grep("navy",colpv)], logpv[grep("navy",colpv)], 
-     labels=colnames(sorted.x)[grep("navy",colpv)], cex=0.6,
-     pos=pospv, col=colpv[grep("navy",colpv)])
+  
+  voldata <- cbind(logfc,logpv)
+  text(voldata[grep("navy",colpv),1], voldata[grep("navy",colpv),2], 
+     labels=rownames(voldata)[grep("navy",colpv)], cex=0.6,
+     pos=pospv[grep("navy",colpv)], col=colpv[grep("navy",colpv)])
   Vol_sig = paste(dirout.vol, "VolcanoMarker_", ExcName(i,slink), "vs", 
             ExcName(j,slink), ".csv", sep="")
-  dirout.name =c(colnames(sorted.x)[grep("navy",colpv)])
+  dirout.name =c(rownames(voldata)[grep("navy",colpv)])
   write.csv(dirout.name, Vol_sig)
-   } else {
+   } else { NULL
  }
 axis(2, at = c(-1,150), pos=c(lower,0), col="blue", lwd=1,lty= 2)
 axis(2, at = c(-1,150), pos=c(upper,0), col="blue", lwd=1,lty= 2)

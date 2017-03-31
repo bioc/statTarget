@@ -215,7 +215,7 @@ statTargetGUI <- function() {
   
   lyout[2,3]<-gWidgets2::gbutton("nvarRF", cont=lyout)
   lyout[2,4]<-(widgets$nvarRF<-
-                 gWidgets2::gedit("20", width = 8,cont=lyout))
+                 gWidgets2::gedit("5", width = 8,cont=lyout))
   
   
   lyout[5,3]<-gWidgets2::gbutton("Volcano FC >", cont=lyout)
