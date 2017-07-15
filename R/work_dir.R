@@ -69,8 +69,6 @@
 #' @importFrom gWidgets2 gstatusbar
 #' @import pls
 #' @import pdist 
-#' @importFrom pROC roc
-#' @importFrom pROC ci.auc
 #' @importFrom rrcov plot
 #' @import impute
 ## @import stats
