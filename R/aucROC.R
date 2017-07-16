@@ -1,10 +1,7 @@
 ### acu.ROC
-### This function provide the receiver operating 
-### characteristic curve and Area under the Curve of ROC.
+### This function provide area under the Curve of ROC.
 ### file The connection to the data in the Univariate file.
-### pROC roc
-### pROC ci.auc
-### A matrix to outline the AUC and the confidence region.
+### A matrix to outline the AUC.
 aucROC <- function(file) {
   pwdfile = paste(getwd(), "/Univariate/DataTable.csv", sep = "")
   file = pwdfile
@@ -45,8 +42,8 @@ aucROC <- function(file) {
         J = read.csv(pwdj, header = TRUE)
         I = I[, -1]
         J = J[, -1]
-        Ilf = matrix(rep(i),nrow(I))
-        Jlf = matrix(rep(j),nrow(J))    
+        Ilf = matrix(rep(1,i),nrow(I))
+        Jlf = matrix(rep(0,j),nrow(J))    
         colnames(Ilf) = c("lf")
         colnames(Jlf) = c("lf")
         I = cbind(Ilf,I)
@@ -54,41 +51,25 @@ aucROC <- function(file) {
         IJ = rbind(I,J)
         IJM <- as.matrix(IJ[,2:ncol(IJ)])
         outf <-as.factor(IJ[,1])
-        message(paste("\n*Group.", ExcName(i,slink), sep = ""),
-                " Vs.", paste(" Group.", ExcName(j,slink), sep = ""))
+        #message(paste("*Group.", ExcName(i,slink), sep = ""),
+        #        " Vs.", paste(" Group.", ExcName(j,slink), sep = ""))
         myROC=function(x,y){
-          roc.obj <- pROC::roc(y,x,percent = FALSE)
-          auc.ci <- pROC::ci.auc(roc.obj, method = "delong", 
-                                 progress = "none", parallel=FALSE)
-          rocdata <- c(roc.obj$auc,auc.ci[1],auc.ci[3])
-          names(rocdata)=c("AUC","lowAUC","upAUC")
-          return(rocdata)
-        }
-        apply_pb <- function(X, MARGIN, FUN, ...)
-        {
-          env <- environment()
-          pb_Total <- sum(dim(X)[MARGIN])
-          counter <- 0
-          pb <- txtProgressBar(min = 0, max = pb_Total,
-                               style = 3)
-          
-          wrapper <- function(...)
-          {
-            curVal <- get("counter", envir = env)
-            assign("counter", curVal +1 ,envir= env)
-            setTxtProgressBar(get("pb", envir= env),
-                              curVal +1)
-            FUN(...)
-          }
-          res <- apply(X, MARGIN, wrapper, ...)
-          close(pb)
-          res
+          roc.obj <- suppressMessages(ROC::rocdemo.sca(y,x,
+                             function(x, thresh) ROC::dxrule.sca(x, thresh)))
+          auc <- ROC::AUC(roc.obj)
+          #rocdata <- c(roc.obj$auc,auc.ci[1],auc.ci[3])
+          if(auc >= 0.5){
+            return(auc)}else{
+              return(1-auc)
+            }
         }
         
-        myroc <- apply_pb(IJM,2,function(x){myROC(x,outf)})
+        myroc <- apply(IJM,2,function(x){myROC(x,outf)})
         
         #myroc <- apply(IJM,2,function(x){myROC(x,outf)})
-        myroc <- as.data.frame(t(myroc))
+        myroc <- as.data.frame(myroc)
+        colnames(myroc)=c("AUC")
+        
         myroc.ij = paste("auc_roc_", ExcName(i,slink), "vs", 
                          ExcName(j,slink), ".csv", sep = "")
         assign(myroc.ij, myroc)
