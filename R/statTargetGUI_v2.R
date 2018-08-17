@@ -194,7 +194,7 @@ statTargetGUI <- function() {
     transX(data=transdata, type= typeT)
     galert(paste(" Task Finished ! See data at\n" 
                  ,getwd()), title = typeT, delay = 5)
-    },container=button.group,
+    },container=button.group
     )
     gWidgets2::visible(xlyout) <- TRUE
     
@@ -349,7 +349,7 @@ statTargetGUI <- function() {
     
     
     # PCA and PLS analysis
-    plyoutStat <- gWidgets2::gexpandgroup("PCA and PLS analysis", cont = lyoutStat, , expand = TRUE)
+    plyoutStat <- gWidgets2::gexpandgroup("PCA and PLS analysis", cont = lyoutStat, expand = TRUE)
     plyoutStat2 <- gWidgets2::gformlayout(container = plyoutStat, expand = TRUE)
     
     widgets$scalingMethod <- gWidgets2::gcombobox(c("Center", "Pareto", "Auto", "Vast", "Range", "None"), 
