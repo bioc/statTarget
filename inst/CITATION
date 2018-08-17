@@ -9,7 +9,7 @@ citEntry(entry="article",
     volume = "",
     textVersion = 
     paste("Luan H., Ji F., Chen Y., and Cai Z.",
-          "statTarget: a streamlined tool for signal drift correction and interpretations of quantitative mass spectrometry-based omics data")
+          "statTarget: a streamlined tool for signal drift correction and interpretations of quantitative mass spectrometry-based omics data, 2018, Analytica Chimica Acta. dio: https://doi.org/10.1016/j.aca.2018.08.002")
     )
 
 citFooter("This free open-source software implements academic research by the authors and co-workers. If you use it, please support the project by citing the appropriate journal articles.")
