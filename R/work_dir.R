@@ -3,9 +3,12 @@
 #' @importFrom utils write.csv
 #' @importFrom utils write.table
 #' @importFrom stats binomial
+#' @importFrom utils capture.output
 #' @importFrom stats cor
+#' @importFrom stats var
 ## @importFrom stats cov
 #' @importFrom stats density
+#' @importFrom stats ecdf
 #' @importFrom stats glm
 #' @importFrom stats median
 #' @importFrom stats p.adjust
@@ -41,6 +44,8 @@
 #' @importFrom graphics identify
 #' @importFrom graphics lines
 #' @importFrom graphics title
+#' @importFrom graphics mtext
+#' @importFrom utils install.packages
 #' @importFrom randomForest randomForest
 #' @importFrom randomForest MDSplot
 #' @importFrom randomForest importance
@@ -54,25 +59,21 @@
 #' @importFrom grDevices colors
 #' @importFrom grDevices palette
 #' @importFrom grDevices col2rgb
-#' @importFrom gWidgets2 svalue
+# @importFrom gWidgets2 svalue
 #' @importFrom plyr rlply
-#' @importFrom gWidgets2 gwindow
-#' @importFrom gWidgets2 ggroup
-#' @importFrom gWidgets2 gimage
-#' @importFrom gWidgets2 gframe
-#' @importFrom gWidgets2 glayout
-#' @importFrom gWidgets2 gbutton
-#' @importFrom gWidgets2 svalue
-#' @importFrom gWidgets2 gfile
-#' @importFrom gWidgets2 gedit
-#' @importFrom gWidgets2 font
-#' @importFrom gWidgets2 gstatusbar
+#' @importFrom plyr daply
+#' @importFrom plyr .
+# @importFrom gWidgets2 gwindow @importFrom gWidgets2 ggroup @importFrom gWidgets2 gimage
+# @importFrom gWidgets2 gframe @importFrom gWidgets2 glayout @importFrom gWidgets2 gbutton
+# @importFrom gWidgets2 svalue @importFrom gWidgets2 gfile @importFrom gWidgets2 gedit @importFrom
+# gWidgets2 font @importFrom gWidgets2 gstatusbar
 #' @import pls
 #' @import pdist 
+#' @importFrom ROC rocdemo.sca
+#' @importFrom ROC AUC
 #' @importFrom rrcov plot
 #' @import impute
-## @import stats
-#' @import gWidgets2RGtk2
+## @import stats @import gWidgets2RGtk2
 #' @importFrom graphics abline
 #' @importFrom stats lm
 #' @importFrom stats complete.cases
@@ -82,13 +83,12 @@
 #' @importFrom stats aggregate
 #' @importFrom utils setTxtProgressBar 
 #' @importFrom utils txtProgressBar
-work_dir <-
-function(dir.name){
-  WorkinDir=paste(getwd(),"/", dir.name, "/",sep="")
-  dir.create(WorkinDir)
-  file = list.files()
-  file.copy(file, WorkinDir)
-  setwd(WorkinDir)
-  unlink("statTarget.R")
+work_dir <- function(dir.name) {
+    WorkinDir = paste(getwd(), "/", dir.name, "/", sep = "")
+    dir.create(WorkinDir)
+    file = list.files()
+    file.copy(file, WorkinDir)
+    setwd(WorkinDir)
+    unlink("statTarget.R")
 }
 
