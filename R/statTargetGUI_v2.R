@@ -287,10 +287,12 @@ statTargetGUI <- function() {
             QCspan = QCspan, degree = 2, imputeM = imputeM1), file = "shiftCor.log", split = TRUE, 
             append = FALSE)
         
-        logtmp1 <- readLines(paste(getwd(), "shiftCor.log", sep = "/"))
-        
-        ltxt1 <- gWidgets2::gtext(paste(logtmp1, collapse = "\n"), wrap = FALSE,
-                                  cont = logg1, expand = TRUE, fill = TRUE)
+        logtmp1 <- try(readLines(paste(getwd(), "shiftCor.log", sep = "/")), silent=TRUE)
+        if ("try-error" %in% attr(logtmp1,"class")){
+          logtmpP1 <- "Cannot find the log files!"
+        } else {
+        ltxt1 <- gWidgets2::gtext(paste(logtmpP1 = logtmp1, collapse = "\n"), wrap = FALSE,
+                                  cont = logg1, expand = TRUE, fill = TRUE)}
         gWidgets2::gseparator(cont = logg1)
         bglog1 <- gWidgets2::ggroup(cont = logg1)
         gWidgets2::addSpring(bglog1)
@@ -316,10 +318,6 @@ statTargetGUI <- function() {
             addSpring(bg)
             gbutton("dismiss", cont = bg, handler = function(...) dispose(w1))
         })
-        
-        
-        
-        
     }, container = button.group)
     
     
@@ -462,10 +460,14 @@ statTargetGUI <- function() {
             sig.lim = sig.lim), file = "statAnalysis.log", split = TRUE, append = FALSE)
         
         
-        logtmp2 <- readLines(paste(getwd(), "statAnalysis.log", sep = "/"))
+        logtmp2 <- try(readLines(paste(getwd(), "statAnalysis.log", sep = "/")), silent=TRUE)
+        if ("try-error" %in% attr(logtmp2,"class")){
+          logtmpP <- "Cannot find the log files!"
+        } else {
+          ltxt <- gtext(paste(logtmpP = logtmp2, collapse = "\n"), wrap = FALSE, 
+                        cont = logg2, expand = TRUE, fill = TRUE)
+        }
         
-        ltxt <- gtext(paste(logtmp2, collapse = "\n"), wrap = FALSE, 
-                      cont = logg2, expand = TRUE, fill = TRUE)
         gseparator(cont = logg2)
         
         bglog <- ggroup(cont = logg2)
