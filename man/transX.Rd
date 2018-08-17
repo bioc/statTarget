@@ -8,25 +8,32 @@ transX(data, type)
 }
 \arguments{
 \item{data}{A transX objects. The output file from Mass Spectrometry Data 
-softwares.}
+softwares, such as '*.tsv' file from diffreport in XCMS software, 
+'*.csv' file from SIEVE software,'.csv' file from SKYLINE software, 
+'*.csv' file (Export to metaboAnalyst file) from MZmine2 software.}
 
 \item{type}{The output file formats from Mass Spectrometry Data software, 
-including "XCMS" or "xcms",...; The softwares include XCMS (.tsv file 
-generated from diffreport function), ...}
+including 'XCMS' or 'xcms','MZmine2' or 'mzmine2','SIEVE' or 'sieve' and 
+'skyline' or 'SKYLINE'; Read-only .tsv file from diffreport in XCMS software}
 }
 \value{
-A objects of transX
+An output directory named 'statTargetDirectory'
 }
 \description{
-transX is to generate statTarget inputs from Mass Spectrometry 
-Data softwares, like XCMS.
+transX is to generate statTarget input file formats from 
+Mass Spectrometry Data softwares, such as XCMS, MZmine2,SIEVE and SKYLINE.
 }
 \examples{
-datpath <- system.file("extdata",package = "statTarget")
-data <- paste(datpath,"xcmsOutput.tsv", sep="/")
-transX(data,"xcms")
-transCode(data,"xcms")
+datpath <- system.file('extdata',package = 'statTarget')
+dataXcms <- paste(datpath,'xcmsOutput.tsv', sep='/')
+dataSkyline <- paste(datpath,'skylineDemo.csv', sep='/')
+transX(dataXcms,'xcms')
 }
+\author{
+Hemi Luan, hemi.luan@gmail.com
+}
+\keyword{MZmine2}
+\keyword{SIEVE}
+\keyword{SKYLINE}
 \keyword{XCMS}
 \keyword{inputs}
-

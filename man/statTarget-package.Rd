@@ -2,35 +2,30 @@
 % Please edit documentation in R/statTarget-package.R
 \docType{package}
 \name{statTarget-package}
-\alias{statTarget}
 \alias{statTarget-package}
-\title{Statistical Analysis of Metabolite Profile}
+\alias{statTarget}
+\title{Statistical Analysis of Molecular Profiles}
 \usage{
 statTarget()
 }
 \value{
-A description of statTarget
+A description of statTarget. See the details at https://stattarget.github.io
 }
 \description{
-An easy to use tool provides graphical user interface 
+An streamlined tool provides graphical user interface 
 for quality control based signal correction, integration of 
-metabolomic data from multiple batches, and the 
-comprehensive statistic analysis for non-targeted and targeted approaches.
+MS-based data from multiple batches, and the 
+comprehensive statistical analysis for omics studies.
 }
 \details{
 Package: statTarget
 
 Type: package
 
-Version: 1.5.6
-
-Date: 2017-01-09
-
-License: GPL (>= 2)
+License: LGPL (>= 3)
 }
 \author{
 Hemi Luan
 
 Maintainer: Hemi Luan hemi.luan@gmail.com
 }
-
