@@ -1,24 +1,27 @@
 Package: statTarget
 Type: Package
-Title: Statistical Analysis of Metabolite Profile
+Title: Statistical Analysis of Molecular Profiles
 Version: 1.11.1
 Author: Hemi Luan
 Maintainer: Hemi Luan <hemi.luan@gmail.com>
 Depends: R (>= 3.3.0)
 Imports:
         randomForest,plyr,pdist,ROC,utils,grDevices,graphics,rrcov,stats,
-        pls,impute,gWidgets2,gWidgets2RGtk2
+        pls,impute
 VignetteBuilder: knitr
-Suggests: testthat, BiocStyle, knitr, rmarkdown
-Description: An easy to use tool provides a graphical user interface for
-        quality control based shift signal correction, integration of
-        metabolomic data from multi-batch experiments, and the
-        comprehensive statistic analysis in non-targeted or targeted
-        metabolomics.
-License: GPL (>= 2)
-URL: https://github.com/13479776/statTarget
-biocViews: Metabolomics, MassSpectrometry, QualityControl, Regression,
-        GUI
-RoxygenNote: 5.0.1
+Suggests: testthat, BiocStyle, knitr, rmarkdown,
+        gWidgets2,gWidgets2RGtk2,RGtk2
+Description: A streamlined tool provides a graphical user interface for
+    quality control based signal drift correction, integration of
+    data from multi-batch MS-based experiments, and the
+    comprehensive statistical analysis in metabolomics and proteomics.
+License: LGPL (>= 3)
+URL: https://stattarget.github.io
+biocViews: Metabolomics, Proteomics, Machine Learning,
+        MassSpectrometry, QualityControl, Normalization,
+        DifferentialExpression, BatchEffect, Visualization,
+        MultipleComparison,Preprocessing, GUI, Software
+RoxygenNote: 6.0.1
 LazyData: true
 NeedsCompilation: no
+BuildVignettes: true
