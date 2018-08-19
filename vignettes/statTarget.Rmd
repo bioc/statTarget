@@ -21,121 +21,97 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 
-# Background
+
+# Welcome to statTarget ! 
 
 `Quality Control (QC)` has been considered as an essential step in the
 MS-based omics platform for high reproducibility and accuracy of data. 
 The repetitive use of the same QC samples is more and more accepted for 
-correcting the signal drift during the sequence of MS run order, 
+evaluation and correction of the signal drift during the sequence of MS run order, 
 especially beneficial to improve the quality of data in multi-blocks 
-experiments of metabolomics and proteomics. statTarget is a streamlined tool 
+experiments (Dunn, W.B., et al., 2011). statTarget is a streamlined tool 
 to provide a graphical user interface for `quality control based
  signal correction`, and integration of MS data from `multi-batch of 
-experiments`, and comprehensive statistic analysis in 
- metabolomics and proteomics.
+experiments`, and comprehensive statistic analysis for 
+ MS-based Omics data.
 This document is intended to guide the user to use the functions to 
 perform data analysis, such as shiftCor, statAnalysis, statTargetGUI functions, etc.
 
 
-
-## System requirements
-
-Dependent on R (>= 3.3.0)
-
-## Package installation
-
-Install the latest version of "statTarget 2.0" at Github. copy this code into R
-```
-    # Install package dependencies
-    
-    source("https://bioconductor.org/biocLite.R") 
-    
-    biocLite(c("randomForest", "plyr", "pdist", "ROC", "rrcov", "pls", "impute"))
-    
-    # Install devtools
-    
-    install.packages("devtools")
-    
-    library(devtools)
-    
-    # Install statTarget
-    
-    devtools::install_github("statTarget/statTarget2")
-    
-    library(statTarget)  ## `Load statTarget`
-    
-    
-```    
+![ ](https://raw.githubusercontent.com/13479776/Picture/master/QCorrection.jpg "QC-based signal correction")
 
 
-#  Package overview
+##  Package overview
 
-A streamlined tool provides graphical user interface for quality control based signal correction, integration of metabolomics and proteomics data from multi-batch experiments, and the comprehensive statistic analysis in non-targeted or targeted metabolomics and proteomics. 
+A streamlined tool provides graphical user interface for quality control based signal correction, integration of metabolomics and proteomics data from multi-batch experiments, and the comprehensive statistic analysis. 
 (URL: https://stattarget.github.io)
+
+##  Citation
+
+ Please cite the following article when using statTarget or QC-RFSC algorithm:
  
+ Luan H., Ji F., Chen Y., Cai Z. (2018) statTarget: A streamlined tool for signal drift correction and interpretations of quantitative mass spectrometry-based omics data. Analytica Chimica Acta. dio: https://doi.org/10.1016/j.aca.2018.08.002
+ 
+ Luan H., Ji F., Chen Y., Cai Z. (2018) Quality control-based signal drift correction and interpretations of metabolomics/proteomics data using random forest regression. bioRxiv 253583; doi: https://doi.org/10.1101/253583
+
 
 ## What does statTarget offer statistically
 
 The statTarget has two basic sections. The first section 
 is Signal Correction (See the shiftCor function). It includes 'Ensemble Learning' for QC based signal correction. For example, QC-based random forest correction (QC-RFSC) and QC-based LOESS signal correction (QCRLSC). (Dunn WB., et al. 2011; Luan H., et al. 2015). The second 
-section is Statistical Analysis (See the statAnalysis function). It provides comprehensively computational and statistical methods that are commonly applied to analyze metabolomics data,
+section is Statistical Analysis (See the statAnalysis function). It provides comprehensively computational and statistical methods that are commonly applied to analyze Omics data,
 and offers multiple results for biomarker discovery. The statTargetGUI provides the simple easy to use interface for the above functions.
 
-`Section 1 - Signal Correction` (the shiftCor function) provide 'machine learning method' for QC based signal correction. i.e. QC-RFSC and  QCRLSC that fit the QC data, 
-and each metabolites in the true sample will be normalized to the QC sample.
-To avoid overfitting of the observed data, generalised 
-cross-validation (GCV) would be automatically applied for QC-RLSC, 
-when the QCspan was set at 0. 
+`Section 1 - Signal Correction` provide `ensemble learning method` for QC based signal correction. i.e. QC based random forest signal correction (QC-RFSC) that fit the QC data, 
+and each metabolites in the true sample will be normalized to the QC sample. 
 
-`Section 2 - Statistical Analysis ` (the statAnalysis function) provide features including Data 
-preprocessing, Data descriptions, Multivariate statistics analysis and 
-Univariate analysis. 
+`Section 2 - Statistical Analysis` provide features including Data preprocessing, Data descriptions, Multivariate statistics analysis and Univariate analysis.
 
 
-Data preprocessing : 80-precent rule, sum normalization (SUM) and probabilistic 
-quotient normalization (PQN), glog transformation, KNN imputation, 
-median imputation, and minimum imputation.
+Data preprocessing : 80-precent rule, sum normalization (SUM) and probabilistic quotient normalization (PQN), glog transformation, KNN imputation, median imputation, and minimum imputation.
 
 
 Data descriptions :  Mean value, Median value, sum, Quartile, Standard 
 derivatives, etc.
 
 
-Multivariate statistics analysis : PCA, PLSDA, VIP, Random forest, Permutation importance.
+Multivariate statistics analysis : PCA, PLSDA, VIP, Random forest, Permutation-based feature selection.
 
 
-Univariate analysis : Welch's T-test, Shapiro-Wilk normality test and 
-Mann-Whitney test.
+Univariate analysis : Welch's T-test, Shapiro-Wilk normality test and Mann-Whitney test.
 
 
 Biomarkers analysis: ROC, Odd ratio, Adjusted P-value, Box plot and Volcano plot.
 
-## statTargetGUI 
+
+### statTargetGUI 
 
 ```
 ## Examples Code for graphical user interface 
 
+library(statTarget)
+
 statTargetGUI()
 
-For mac PC,  the GUI function 'statTargetGUI()' need the XQuartz instead of X11 support. Download it from https://www.xquartz.org. R 3.3.0 and RGtk2 2.20.31 are recommended for RGtk2 installation.
+#For mac PC,  the GUI function 'statTargetGUI()' need the XQuartz instead of X11 support. Download it from https://www.xquartz.org. R 3.3.0 and RGtk2 2.20.31 are recommended for RGtk2 installation.
 
 ```
 
-```
+
 <img src=
-"https://github.com/13479776/Picture/raw/master/interface_statTarget.jpg" 
+"https://raw.githubusercontent.com/13479776/Picture/master/interface.jpg" 
 width = "350" height = "500" alt="statTargetGUI" align=center />
-```
 
 `statTargetGUI`
 
 
 
-Download the [Reference manual](https://github.com/13479776/Picture/raw/master/work%20flow.pptx) and [example data](https://github.com/13479776/Picture/raw/master/Data_example.zip) .
+Download the [Reference manual](https://github.com/13479776/Picture/blob/master/statTarget-manual.pdf) and [example data](https://github.com/13479776/Picture/raw/master/Data_example.zip) .
 
 
 
-## Running Signal Correction (the shiftCor function) from the GUI
+
+### Running Signal Correction (the shiftCor function) from the GUI
 
 
 `Meta File`
@@ -143,10 +119,15 @@ Download the [Reference manual](https://github.com/13479776/Picture/raw/master/w
   
   Meta information includes the Sample name, class, batch and order. 
   Do not change the name of each column
-  (a) Class: The QC should be labeled as NA
-  (b) Order : Injection sequence. 
-  (c) Batch: The analysis blocks or batches
-  (d) Sample name should be consistent in Meta file and Profile file
+  
+  (1) Class: The QC should be labeled as NA
+ 
+  (2) Order : Injection sequence. 
+  
+  (3) Batch: The analysis blocks or batches
+  
+  (4) Sample name should be consistent in Meta file and Profile file
+  
   (See the example data)
 
 
@@ -161,27 +142,24 @@ data.(See the example data)
 
 
 Modified n precent rule function. A variable will be kept if it has a non-zero value for at least n precent of samples in any one group. (Default: 0.8)  
-
-
-`Imputation`
-
-
-The parameter for imputation method.(i.e., 
-nearest neighbor averaging, "KNN"; minimum values, "min"; Half of minimum values, 
-"minHalf"; median values, "median". (Default: KNN) 
-
-
- `Signal correction method`
  
 
- The machine learning method for QC based signal correction. i.e.QC-RFSC
- and QC-RLSC.
+`MLmethod`
  
+
+ The machine learning method for QC based signal correction. i.e. QC-RFSC, QC-RLSC.
+ 
+
+`Ntree`
+	
+	
+Number of trees to grow for QC-RFSC (Default: 500) .
+
 
 `QCspan`
 
 
-The smoothing parameter for QC-RLSC which controls the bias-variance tradeoff. 
+The smoothing parameter for QCRLSC which controls the bias-variance tradeoff. 
 The common range of QCspan value is from 0.5 to 0.75. If you choose
 a span that is too small then there will be a large variance. 
 If the span is too large, a large bias will be produced. 
@@ -190,15 +168,20 @@ cross-validation will be performed for choosing a good value,
 avoiding overfitting of the observed data. (Default: 0) 
 
 
-`Ntree`
+
+`Imputation`
 
 
-The number of trees to grow in random forest model.
+ The parameter for imputation method.(i.e., 
+ nearest neighbor averaging, "KNN"; minimum values, "min"; Half of minimum values 
+"minHalf" median values, "median". (Default: KNN) 
 
 
 
 ```
 ## Examples Code
+
+library(statTarget)
 
 datpath <- system.file('extdata',package = 'statTarget')
 samPeno <- paste(datpath,'MTBLS79_sampleList.csv', sep='/')
@@ -209,7 +192,7 @@ See ?shiftCor for off-line help
 ```
 
 
-## Running Statistical Analysis (the statAnalysis function) from the GUI
+### Running Statistical Analysis (the statAnalysis function) from the GUI
 
 
 `Stat File`
@@ -221,7 +204,7 @@ Expression data includes the sample name, group, and expression data.
 `NA.Filter`
 
 
-Modified n precent rule function. A variable will be kept if it has a non-zero value for at least n precent of samples in any one group. (Default: 0.8)   
+Modified n precent rule function. A variable will be kept if it has a non-zero value for at least n precent of samples in any one group. (Default: 0.8)  
 
 
 
@@ -229,7 +212,7 @@ Modified n precent rule function. A variable will be kept if it has a non-zero v
 
 
 The parameter for imputation method.(i.e., nearest neighbor averaging, "KNN"; 
-minimum values, "min"; Half of minimum values, "minHalf"; median values, 
+minimum values, "min"; Half of minimum values "minHalf"; median values, 
 "median". (Default: KNN) 
 
 
@@ -258,10 +241,10 @@ Vast can be used for specifying the vast scaling.
 Range can be used for specifying the Range scaling. (Default: Pareto) 
 
 
-`Permutation times or silt` 
+`Permutation times`
 
 
-The number of random permutation times for PLS-DA model and feature importance in randomForest (Default: 20) 
+The number of permutation times for cross-validation of PLS-DA model, and variable importance of randomforest model
 
 
 
@@ -270,12 +253,6 @@ The number of random permutation times for PLS-DA model and feature importance i
 
 PCs in the Xaxis or Yaxis: Principal components in 
 PCA-PLS model for the x or y-axis (Default: 1 and 2) 
-
-
-`Ntree`
-
-
-The number of trees to grow in random forest model.
 
 
 `nvarRF`
@@ -311,26 +288,31 @@ values in the Volcano plot. (Default:  > 2 or < 0.5)
 `Volcano Pvalue`
 
 
-The significance level for metabolites in the Volcano plot.(Default: 0.05)
+The significance level for metabolites in the Volcano plot.(Default: 0.05) 
 
 
 ```
 ## Examples Code
+
+library(statTarget)
 
 datpath <- system.file('extdata',package = 'statTarget')
 file <- paste(datpath,'data_example.csv', sep='/')
 statAnalysis(file,Frule = 0.8, normM = "NONE", imputeM = "KNN", glog = TRUE,scaling = "Pareto")
 
-See ?statAnalysis for off-line help
 ```
 
 
-## Generation of input file (the transX function)
 
-The transX function is to generate statTarget input file formats from Mass Spectrometry Data softwares, such as XCMS, SIEVE and SKYLINE. '?transX' for off-line help.
+
+### Generation of input file (the transX function)
+
+The transX function is to generate statTarget input file formats from Mass Spectrometry Data softwares, such as XCMS, MZmine2, SIEVE and SKYLINE. '?transX' for off-line help.
 
 ```
 ## Examples Code
+
+library(statTarget)
 
 datpath <- system.file('extdata',package = 'statTarget')
 dataXcms <- paste(datpath,'xcmsOutput.tsv', sep='/')
@@ -341,12 +323,14 @@ transX(dataSkyline,'skyline')
 See ?transX for off-line help
 ```
 
-## Random Forest classfication and variable importance measures
+### Random Forest classfication and variable importance measures
 
 rForest provides the Breiman’s random forest algorithm for classification and permutation-based variable importance measures (PIMP-algorithm).
 
 ```
 ## Examples Code
+
+library(statTarget)
 
 datpath <- system.file('extdata',package = 'statTarget')
 statFile <- paste(datpath,'data_example.csv', sep='/')
@@ -370,16 +354,16 @@ See ?rForest for off-line help
 ```
 
 
-# Investigation of the results
+### Investigation of the results
 
-Download the [example data](https://github.com/13479776/Picture/raw/master/Data_example.zip) .
+Download the [Example data](https://github.com/13479776/Picture/raw/master/Data_example.zip) and [Demo reports](https://raw.githubusercontent.com/13479776/Picture/master/Example-Reports.zip)
 
 
 Once data files have been analysed it is time to investigate them. 
 Please get this info. through the GitHub page.
 (URL: https://stattarget.github.io)
 
-## Results of Signal Correction (ShiftCor)
+#### Results of Signal Correction (ShiftCor)
 
 
 - __The output file: __
@@ -390,8 +374,8 @@ statTarget -- shiftCor
    -- shift_all_cor.csv         # The corrected data of samples and QCs
    -- shift_QC_cor.csv          # The corrected data of QCs only
    -- shift_sample_cor.csv      # The corrected data of samples only
-   -- loplot                    # The fold for signal correction figures
-      -- *.pdf                  # The signal correction figures for each features
+   -- loplot                    # The fold for quality control images
+      -- *.pdf                  # The quality control images for each features
 
 -- Before_shiftCor            # The fold for raw data
    -- shift_QC_raw.csv          # The raw data of QCs
@@ -409,14 +393,14 @@ statTarget -- shiftCor
 - **The Figures:**
 
 
-Loplot (left): the visible figure of signal correction for each features
+Loplot (left): the visible image of quality control images for each features
 
-```
+
 The RSD distribution (right): 
 The relative standard deviation of peaks in the samples and QCs
 <img src=
 "https://raw.githubusercontent.com/13479776/Picture/master/shiftC-14.jpg" >
-```
+
  
 - **The status log (Example data):**
 
@@ -597,7 +581,7 @@ Total   98.85409 99.00688 99.23606 99.38885
 ```
 
 
-## Results of statistic analysis (statAnalysis)
+#### Results of statistic analysis (statAnalysis)
 
 - __The output file: __
 
@@ -636,10 +620,10 @@ statTarget -- statAnalysis
 
 
 - **The Figures:**
-``` 
+ 
 <img src=
 "https://github.com/13479776/Picture/raw/master/statA_16.jpg">
-```
+
 - **The status log (Example data):**
 
 ```
@@ -785,15 +769,12 @@ pvalueImp "M257T762"
 
 ```
 
-# Session info
+ 
+## References
 
-Here is the output of sessionInfo on the system on which this document was compiled:
-
-```{r sessionInfo, eval = TRUE, echo = TRUE}
-sessionInfo()
-```
-
-# References
+Luan H., Ji F., Chen Y., Cai Z. (2018) statTarget: A streamlined tool for signal drift correction and interpretations of quantitative mass spectrometry-based omics data. Analytica Chimica Acta. dio: https://doi.org/10.1016/j.aca.2018.08.002
+ 
+Luan H., Ji F., Chen Y., Cai Z. (2018) Quality control-based signal drift correction and interpretations of metabolomics/proteomics data using random forest regression. bioRxiv 253583; doi: https://doi.org/10.1101/253583
 
 Dunn, W.B., et al.,Procedures for large-scale metabolic profiling of
 serum and plasma using gas chromatography and liquid chromatography coupled 
@@ -804,4 +785,3 @@ Parkinson's Disease. J Proteome Res., 2015, 14,467.
 
 Luan H., Non-targeted metabolomics and lipidomics LC-MS data 
 from maternal plasma of 180 healthy pregnant women. GigaScience 2015 4:16
-
