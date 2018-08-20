@@ -289,7 +289,13 @@ statTargetGUI <- function() {
         
         logtmp1 <- try(readLines(paste(getwd(), "shiftCor.log", sep = "/")), silent=TRUE)
         if ("try-error" %in% attr(logtmp1,"class")){
-          logtmpP1 <- "Cannot find the log files!"
+          logtmp1 <- "
+
+                       Cannot load the log files!\n 
+                       Check your results, please!"
+          ltxt1 <- gWidgets2::gtext(paste(logtmpP1 = logtmp1, collapse = "\n"), wrap = FALSE,
+                                    cont = logg1, expand = TRUE, fill = TRUE)
+          
         } else {
         ltxt1 <- gWidgets2::gtext(paste(logtmpP1 = logtmp1, collapse = "\n"), wrap = FALSE,
                                   cont = logg1, expand = TRUE, fill = TRUE)}
@@ -462,7 +468,12 @@ statTargetGUI <- function() {
         
         logtmp2 <- try(readLines(paste(getwd(), "statAnalysis.log", sep = "/")), silent=TRUE)
         if ("try-error" %in% attr(logtmp2,"class")){
-          logtmpP <- "Cannot find the log files!"
+          logtmp2 <- "
+                      
+                      Cannot load the log files!\n 
+                      Check your results, please!"
+          ltxt <- gtext(paste(logtmpP = logtmp2, collapse = "\n"), wrap = FALSE, 
+                        cont = logg2, expand = TRUE, fill = TRUE)
         } else {
           ltxt <- gtext(paste(logtmpP = logtmp2, collapse = "\n"), wrap = FALSE, 
                         cont = logg2, expand = TRUE, fill = TRUE)
