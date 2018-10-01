@@ -3,7 +3,7 @@ Type: Package
 Title: Statistical Analysis of Molecular Profiles
 Version: 1.11.4
 Author: Hemi Luan
-Maintainer: Hemi Luan <hemi.luan@gmail.com>
+Maintainer: Hemi Luan <hemi.luan@gmail.com & luanhm@sustc.edu.cn>
 Depends: R (>= 3.3.0)
 Imports:
         randomForest,plyr,pdist,ROC,utils,grDevices,graphics,rrcov,stats,
