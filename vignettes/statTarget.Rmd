@@ -7,7 +7,7 @@ output:
     toc: true
        
 vignette: >
-  %\VignetteIndexEntry{statTarget 2.0}
+  %\VignetteIndexEntry{statTarget2 On using the Graphical User Interface}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
 ---
