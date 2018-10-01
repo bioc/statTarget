@@ -31,9 +31,10 @@ Binary Package: [statTarget2_WindowsOnly.zip](https://github.com/13479776/Pictur
      
 > Install the earlier versions of “statTarget” at the Bioconductor
 
-    source("https://bioconductor.org/biocLite.R") 
+    if (!requireNamespace("BiocManager", quietly=TRUE))
+        install.packages("BiocManager")
 
-    biocLite("statTarget")
+    BiocManager::install("statTarget")
 
     library(statTarget)  ## `Load statTarget`. 
     
