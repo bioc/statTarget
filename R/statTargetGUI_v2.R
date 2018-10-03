@@ -28,7 +28,7 @@ statTargetGUI <- function() {
     if (requireNamespace("RGtk2", quietly = TRUE)) {
         print("RGtk2 is loaded correctly")
     } else {
-        print("trying to install RGtk2")
+        print("trying to install RGtk2. RGtk2 is preferred on Windows ")
         utils::install.packages("RGtk2")
         if (requireNamespace("RGtk2", quietly = TRUE)) {
             print("RGtk2 installed and loaded")
