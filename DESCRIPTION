@@ -3,7 +3,7 @@ Type: Package
 Title: Statistical Analysis of Molecular Profiles
 Version: 1.11.4
 Author: Hemi Luan
-Maintainer: Hemi Luan <hemi.luan@gmail.com & luanhm@sustc.edu.cn>
+Maintainer: Hemi Luan <hemi.luan@gmail.com>
 Depends: R (>= 3.3.0)
 Imports:
         randomForest,plyr,pdist,ROC,utils,grDevices,graphics,rrcov,stats,
@@ -21,7 +21,7 @@ biocViews: Metabolomics, Proteomics, Machine Learning,
         MassSpectrometry, QualityControl, Normalization,
         DifferentialExpression, BatchEffect, Visualization,
         MultipleComparison,Preprocessing, GUI, Software
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 LazyData: true
 NeedsCompilation: no
 BuildVignettes: true
