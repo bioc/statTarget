@@ -1,4 +1,4 @@
 .onAttach <- function(...) {
-    packageStartupMessage("\nFor details see https://stattarget.github.io.\n")
+    packageStartupMessage("\nUse 'statTargetGUI()' to start the GUI program. For details see https://stattarget.github.io.\n")
     # statTarget::statTargetGUI()
 }
