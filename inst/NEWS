@@ -8,7 +8,9 @@ NEW FEATURES
     o .log file
     
     + New Signal correction
+    o Combat for QC-free Signal correction
     o QC-RFSC methods for metabolomics and proteomics data
+    
     
     + New feature slection
     o Random Forest and the Permutation based variable importance measures

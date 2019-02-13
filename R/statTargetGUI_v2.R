@@ -228,7 +228,8 @@ statTargetGUI <- function() {
     cslyout2 <- gformlayout(cont = cslyout)
     
     
-    widgets$MLmethod <- gWidgets2::gradio(c("QCRFSC", "QCRLSC"), selected = 1, cont = cslyout2, horizontal = FALSE)
+    widgets$MLmethod <- gWidgets2::gradio(c("QCRFSC", "QCRLSC","Combat"), 
+                                          selected = 1, cont = cslyout2, horizontal = FALSE)
     
     gWidgets2::visible(cslyout) <- TRUE
     
@@ -288,9 +289,15 @@ statTargetGUI <- function() {
         logg1 <- gWidgets2::gvbox(container = logw1)
         logg1$set_borderwidth(5)
         
+        if(MLmethod %in% c("QCRLSC","QCRFSC")) {
         utils::capture.output(shiftCor(samPeno, samFile, Frule = Frule1, MLmethod = MLmethod, ntree = ntree1, 
             QCspan = QCspan, degree = 2, imputeM = imputeM1, plot = Plot), file = "shiftCor.log", split = TRUE, 
             append = FALSE)
+        }
+        if(MLmethod %in% c("Combat")) {
+          utils::capture.output(shiftCor_dQC(samPeno,samFile, Frule = 0.8, MLmethod = "Combat"),
+                                file = "shiftCor.log", split = TRUE, append = FALSE)
+        }
         
         logtmp1 <- try(readLines(paste(getwd(), "shiftCor.log", sep = "/")), silent=TRUE)
         if ("try-error" %in% attr(logtmp1,"class")){

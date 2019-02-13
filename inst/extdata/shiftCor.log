@@ -1,0 +1,77 @@
+
+statTarget: Signal Correction Start... Time: Wed Feb 13 17:26:40 2019 
+
+* Step 1: Data File Checking Start..., Time:  Wed Feb 13 17:26:40 2019 
+
+ Data Link 
+ metaFile: /Users/Hees/Documents/software/svn/statTarget/inst/extdata/MTBLS79_dQC_sampleList.csv 
+ profileFile: /Users/Hees/Documents/software/svn/statTarget/inst/extdata/MTBLS79.csv 
+
+ 134 Meta Samples vs 172 Profile samples
+ The Meta samples list (*NA, missing data from the Profile File)
+
+  [1] "batch01_C05" "batch01_C10" "batch01_C03" "batch01_C07" "batch01_C08" "batch01_C06"
+  [7] "batch01_C04" "batch01_C09" "batch02_C05" "batch02_C01" "batch02_C10" "batch02_C03"
+ [13] "batch02_C07" "batch02_C08" "batch02_C06" "batch02_C02" "batch02_C04" "batch02_C09"
+ [19] "batch03_C05" "batch03_C01" "batch03_C10" "batch03_C03" "batch03_C07" "batch03_C08"
+ [25] "batch03_C06" "batch03_C02" "batch03_C04" "batch03_C09" "batch04_C05" "batch04_C01"
+ [31] "batch04_C07" "batch04_C08" "batch04_C06" "batch04_C02" "batch04_C04" "batch05_C01"
+ [37] "batch05_C10" "batch05_C03" "batch05_C07" "batch05_C06" "batch05_C02" "batch05_C04"
+ [43] "batch06_C10" "batch06_C03" "batch06_C07" "batch06_C08" "batch06_C06" "batch06_C02"
+ [49] "batch06_C04" "batch06_C09" "batch07_C05" "batch07_C01" "batch07_C10" "batch07_C03"
+ [55] "batch07_C07" "batch07_C08" "batch07_C02" "batch07_C09" "batch08_C05" "batch08_C01"
+ [61] "batch08_C10" "batch08_C03" "batch08_C07" "batch08_C08" "batch08_C04" "batch08_C09"
+ [67] "batch01_S07" "batch01_S01" "batch01_S05" "batch01_S06" "batch01_S02" "batch01_S09"
+ [73] "batch01_S04" "batch01_S10" "batch02_S03" "batch02_S07" "batch02_S01" "batch02_S05"
+ [79] "batch02_S06" "batch02_S02" "batch02_S09" "batch02_S04" "batch02_S08" "batch02_S10"
+ [85] "batch03_S03" "batch03_S07" "batch03_S01" "batch03_S05" "batch03_S06" "batch03_S02"
+ [91] "batch03_S09" "batch03_S04" "batch03_S08" "batch03_S10" "batch04_S03" "batch04_S07"
+ [97] "batch04_S01" "batch04_S05" "batch04_S06" "batch04_S02" "batch04_S09" "batch04_S08"
+[103] "batch04_S10" "batch05_S03" "batch05_S07" "batch05_S01" "batch05_S04" "batch05_S08"
+[109] "batch06_S03" "batch06_S01" "batch06_S05" "batch06_S06" "batch06_S02" "batch06_S04"
+[115] "batch06_S08" "batch07_S03" "batch07_S07" "batch07_S05" "batch07_S06" "batch07_S02"
+[121] "batch07_S09" "batch07_S04" "batch07_S08" "batch07_S10" "batch08_S03" "batch08_S07"
+[127] "batch08_S01" "batch08_S05" "batch08_S06" "batch08_S02" "batch08_S09" "batch08_S04"
+[133] "batch08_S08" "batch08_S10"
+
+ Warning: The sample size in Profile File is larger than Meta File! 
+
+ Meta-information: 
+
+  Class No.
+1     1  66
+2     2  68
+  Batch No.
+1     1  72
+2     2  12
+3     3  15
+4     4  35
+
+ Metabolic profile information: 
+
+            no.
+Samples     172
+Metabolites  48
+
+* Step 2: Evaluation of Missing Value... 
+
+ The number of missing value before signal correction:  286
+ The number of filtered variables using the modified  80 % rule :   5 
+
+* Step 3: Imputation start... 
+
+ The imputation method was set at 'KNN'
+ The number of missing value after imputation:  0
+ Imputation Finished! 
+ 
+* Step 4: Signal Correction Start... Time:  Wed Feb 13 17:26:40 2019 
+
+ The Signal Correction method was set at Combat 
+Standardizing Data across features
+ Output Link: /Users/Hees/Documents/software/svn/statTarget/inst/extdata 
+
+ Correction Finished! Time:  Wed Feb 13 17:26:40 2019 
+
+ #################################### 
+ # Software Version: statTarget 2.0 # 
+ #################################### 
