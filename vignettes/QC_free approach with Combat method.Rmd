@@ -56,9 +56,9 @@ Download the [Reference manual](https://github.com/13479776/Picture/blob/master/
   Meta information includes the Sample name, class, batch and order. 
   Do not change the name of each column
   
-  (1) Class: The QC should be labeled as NA
+  (1) Class: The group of samples. QC samples is not required, but the class should be available (no 'NA').
  
-  (2) Order: can be replaced by covariates 
+  (2) Order: The concent can be replaced by covariates if the mod.covariates (See shiftCor_dQC function) is TRUE.
   
   (3) Batch: The analysis blocks or batches
   
