@@ -120,8 +120,10 @@ volcano <- function(file, upper.lim, lower.lim, sig.lim) {
                   colpv)]) > 0) {
                   Vol_sig = paste(dirout.vol, "VolcanoMarker_", ExcName(i, slink), "-to-", ExcName(j, 
                     slink), ".csv", sep = "")
-                  dirout.name = c(rownames(voldata)[grep("navy", colpv)], rownames(voldata)[grep("#D55E00", 
-                    colpv)])
+                  #dirout.name = c(rownames(voldata)[grep("navy", colpv)], rownames(voldata)[grep("#D55E00", 
+                   # colpv)])
+                   dirout.name = rbind(voldata[grep("navy", colpv),], voldata[grep("#D55E00",colpv),])
+                   colnames(dirout.name) <- c("'log2(FC)","'-log10(p.adjust)")
                   write.csv(dirout.name, Vol_sig)
                 } else {
                   NULL
