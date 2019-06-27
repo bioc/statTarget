@@ -1,10 +1,10 @@
 Package: statTarget
 Type: Package
 Title: Statistical Analysis of Molecular Profiles
-Version: 1.15.0
+Version: 1.15.1
 Author: Hemi Luan
 Maintainer: Hemi Luan <hemi.luan@gmail.com>
-Depends: R (>= 3.3.0)
+Depends: R (>= 3.6.0)
 Imports:
         randomForest,plyr,pdist,ROC,utils,grDevices,graphics,rrcov,stats,
         pls,impute
