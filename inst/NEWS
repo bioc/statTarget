@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.15.3
+----------------------------------
+
++ odds.ratio.  Add the ratio of the odds of an event occurring in one group (A) to the odds of it occurring in reference group (B), such as odds_of_AtoB.
+
+
 CHANGES IN VERSION 1.13.7
 ----------------------------------
 

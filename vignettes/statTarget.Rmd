@@ -612,7 +612,7 @@ statTarget -- statAnalysis
    ----- BoxPlot
    ----- Fold_Changes             # A ratio of feature between control and case
    ----- Mann-Whitney_Tests       # For non-normally distributed variables
-   ----- oddratio                 # Odd ratio
+   ----- oddratio                 # Odd ratio based on glm method
    ----- Pvalues                  # Integration of pvalues or BH-adjusted pvalues for normal data (Welch test) and abnormal data (Mann Whitney Tests)
    ----- ROC                      # Receiver operating characteristic curve
    ----- Shapiro_Tests            # Normality tests 

@@ -59,11 +59,18 @@ oddRatio <- function(file) {
                     Out <- c(0, 0, 0, 1)
                     names(Out) = c("Odd.radio", "2.5%CI", "97.5%CI", "p.value")
                   } else {
+                    # check the odds of A to B
+                    #outcome <- as.factor(c(rep("A",30),rep("B",28)))
+                    
+                    levels(outcome)[1] <- "pos" # pos
+                    levels(outcome)[2] <- "neg" # neg
+                    outcome <-relevel(outcome, ref= "neg")
                     glm.log <- glm(outcome ~ scale(a), control = list(maxit = 50), family = binomial(link = "logit"))
                     res <- summary(glm.log)$coefficients[2, 1:2]
                     p <- summary(glm.log)$coefficients[2, 4]
                     out <- c(res, p)
                     Odd.radio <- exp(out[1])
+                    #Odd.radio <- exp(glm.log$coefficients["scale(a)"])
                     Std.error1 <- exp(out[1] - 1.96 * out[2])
                     Std.error2 <- exp(out[1] + 1.96 * out[2])
                     Out <- c(Odd.radio, Std.error1, Std.error2, p)
@@ -77,7 +84,7 @@ oddRatio <- function(file) {
                 })
                 or <- as.data.frame(t(or))
                 # write.table(or,'odds_radio.txt',sep='\t',quote=F)
-                or.ij = paste("odds_radio_", ExcName(i, slink), "vs", ExcName(j, slink), ".csv", sep = "")
+                or.ij = paste("odds_of_", ExcName(i, slink), "to", ExcName(j, slink), ".csv", sep = "")
                 assign(or.ij, or)
                 write.csv(or, paste(dirout.w, or.ij, sep = "/"))
             }
