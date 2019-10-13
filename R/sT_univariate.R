@@ -7,6 +7,8 @@ sT_univariate <- function(file, FDR = FDR, plot.volcano, upper.lim, lower.lim, s
     pwdfile = paste(getwd(), "/Univariate/DataTable.csv", sep = "")
     write.csv(comp.x, pwdfile, row.names = FALSE)
     
+    # cal min no. of levels
+    checkNum <- min(summary(as.factor(comp.x[,2])))
     
     cat("\n", "P-value Calculating...")
     
@@ -20,8 +22,13 @@ sT_univariate <- function(file, FDR = FDR, plot.volcano, upper.lim, lower.lim, s
     cat("\n")
     cat("\n", "Odd.Ratio Calculating...", "\n")
     oddRatio(pwdfile)
+    
+    if(checkNum <= 5) {
+      cat("\n", "*ROC analysis skipped", "\n")
+    } else {
     cat("\n", "ROC Calculating...", "\n")
     aucROC(pwdfile)
+    }
     # cat('\n','RandomForest Calculating...','\n')
     
     # RandomF(file,nvarRF)

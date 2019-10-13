@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.15.4
+----------------------------------
+
++ edit colum name for the result table 
++ skip the roc analysis once the number of samples in any groups was less than 5.
+
 CHANGES IN VERSION 1.15.3
 ----------------------------------
 
