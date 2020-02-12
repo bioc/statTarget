@@ -21,6 +21,7 @@
 #' @param imputeM The parameter for imputation method i.e., nearest neighbor 
 #' averaging, 'KNN'; minimum values, 'min'; Half of minimum values, 'minHalf'; 
 #' median values, 'median'.
+#' @param coCV Define the cutoff value (0-100) of CV for controlling the number of features.
 #' @param plot Defines if images of feature quality should be generated (TRUE) or not (FALSE). 
 #' Defaults to FALSE.
 #' @return the shiftCor files. See the details at https://stattarget.github.io
@@ -28,11 +29,11 @@
 #' datpath <- system.file('extdata',package = 'statTarget')
 #' samPeno <- paste(datpath,'MTBLS79_sampleList.csv', sep='/')
 #' samFile <- paste(datpath,'MTBLS79.csv', sep='/')
-#' shiftCor(samPeno,samFile, Frule = 0.8, MLmethod = 'QCRFSC', QCspan = 0,imputeM = 'KNN')
+#' shiftCor(samPeno,samFile, MLmethod = 'QCRFSC', imputeM = 'KNN',coCV = 30)
 #' @keywords Quality Controls,Correction
 #' @export 
 shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree = 500, QCspan = 0, 
-    degree = 2, imputeM = "KNN", plot = FALSE) {
+    degree = 2, imputeM = "KNN", coCV = 30, plot = FALSE) {
     cat("\n")
     
     
@@ -440,12 +441,39 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     
     lo_temp <- cbind(samPeno, t(loessDatT))
     nam_qc <- rownames(lo_temp)
+      
+    ############ loess QC Cal#############
+    QC_temp <- grep("QC", nam_qc)
+    QC_temp <- lo_temp[c(QC_temp), ]
+    lo_temp_qc <- QC_temp[, -c(3, 4)]
+    rownames(lo_temp_qc) <- NULL
+    cat("\n", "Calculation of CV distribution of corrected peaks (QC)...\n\n")
+    # Rsdist_QC_cor=RsdCal(lo_temp_qc,DistPattern = TRUE) lo_temp_qc =
+    # cbind(seq(1,dim(lo_temp_qc)[1],1),lo_temp_qc)
+    Rsdist_QC_cor = RsdCal(lo_temp_qc, batch = TRUE, DistPattern = TRUE, output = TRUE)
+    
+    # cutoff CV
+    
+    cfid <- which(Rsdist_QC_cor > coCV/100) + 2
+    
+    # filter lo_temp_qc
+    lo_temp_qc_filter <- lo_temp_qc[,-cfid]
+    #output
+    RSD30_CV = paste("shift_QC_cor", ".csv", sep = "")
+    write.csv(lo_temp_qc_filter, paste(dirout.As, RSD30_CV, sep = "/"))
+    
+    
+    ############ loess sam Cal#############
     QC_temp <- grep("QC", nam_qc)
     QC_temp <- lo_temp[-c(QC_temp), ]
     lo_temp_sam <- QC_temp[, -c(2, 4)]
     rownames(lo_temp_sam) <- NULL
+    
+    # filter 
+    lo_temp_sam_filter <- lo_temp_sam[,-cfid]
+    
     RSD30_CV = paste("shift_sample_cor", ".csv", sep = "")
-    write.csv(lo_temp_sam, paste(dirout.As, RSD30_CV, sep = "/"), row.names = FALSE)
+    write.csv(lo_temp_sam_filter, paste(dirout.As, RSD30_CV, sep = "/"), row.names = FALSE)
     
     ############ loess sample Cal############# Rsdist_sam_cor = RsdCal(lo_temp_sam,DistPattern = FALSE)
     ############ lo_temp_sam = cbind(seq(1,dim(lo_temp_sam)[1],1),lo_temp_sam)
@@ -453,36 +481,35 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     
     
     
-    ############ loess QC Cal#############
-    QC_temp <- grep("QC", nam_qc)
-    QC_temp <- lo_temp[c(QC_temp), ]
-    lo_temp_qc <- QC_temp[, -c(3, 4)]
-    rownames(lo_temp_qc) <- NULL
-    RSD30_CV = paste("shift_QC_cor", ".csv", sep = "")
-    write.csv(lo_temp_qc, paste(dirout.As, RSD30_CV, sep = "/"))
-    cat("\n", "Calculation of CV distribution of corrected peaks (QC)...\n\n")
-    # Rsdist_QC_cor=RsdCal(lo_temp_qc,DistPattern = TRUE) lo_temp_qc =
-    # cbind(seq(1,dim(lo_temp_qc)[1],1),lo_temp_qc)
-    Rsdist_QC_cor = RsdCal(lo_temp_qc, batch = TRUE, DistPattern = TRUE, output = TRUE)
-    
     ################# 
     RSDdist(Rsdist_sam_raw, Rsdist_sam_cor, Rsdist_QC_raw, Rsdist_QC_cor)
     lo_temp_all <- lo_temp[, -c(2, 4)]
     rownames(lo_temp_all) <- NULL
+    
+    # fitler
+    lo_temp_all_filter <- lo_temp_all[,-cfid]
+    
     RSD30_CV = paste("shift_all_cor", ".csv", sep = "")
-    write.csv(lo_temp_all, paste(dirout.As, RSD30_CV, sep = "/"), row.names = FALSE)
+    write.csv(lo_temp_all_filter, paste(dirout.As, RSD30_CV, sep = "/"), row.names = FALSE)
+    
+    cat("\n* Step 5: ", paste("Removal of the features (CV% > ", coCV,"%)",sep=""),date(), "\n")
+    
+    dn <- length(colnames(lo_temp_qc)[cfid])
+    cat("\n", "No. of removed features:", dn)
+    cat("\n","Feature name:", colnames(lo_temp_qc)[cfid], "\n")
+    
     cat("\n", "Output Link:", getwd(), "\n")
     cat("\n", "Correction Finished! Time: ", date(), "\n")
     cat("\n", "####################################", "\n")
-    cat(" # Software Version: statTarget 2.0 #", "\n")
+    cat(" # Software Version: statTarget 2.0 + #", "\n")
     cat(" ####################################", "\n")
     
     ################## Loess Plot########################
     setwd(dirsc.ID)
     
     # parameter output
-    scPam1 <- c("Frule", "MLmethod", "ntree", "QCspan", "degree", "imputeM")
-    scPam2 <- c(Frule, MLmethod, ntree, QCspan, degree, imputeM)
+    scPam1 <- c("Frule", "MLmethod", "ntree", "QCspan", "degree", "imputeM","coCV")
+    scPam2 <- c(Frule, MLmethod, ntree, QCspan, degree, imputeM, coCV)
     scpam <- data.frame(scPam1, scPam2)
     colnames(scpam) <- c("parameter", "value")
     par_sh = paste("statTarget/ParameterShiftCor", ".log", sep = "")

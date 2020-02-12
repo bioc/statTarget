@@ -1,3 +1,16 @@
+CHANGES IN VERSION 1.17.3
+----------------------------------
+
++ shiftCor-coCV was added as the cutoff value (0-100) of CV for controlling the number of features.
++ To fixed bugs for skiping the roc analysis once the number of samples in any groups was less than 5.
+
+CHANGES IN VERSION 1.17.2
+----------------------------------
+
++ Check and remove the missing values in pvalues for volcanoplot functions
+
+
+
 CHANGES IN VERSION 1.15.4
 ----------------------------------
 

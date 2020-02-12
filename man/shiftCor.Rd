@@ -6,7 +6,7 @@
 \usage{
 shiftCor(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC",
   ntree = 500, QCspan = 0, degree = 2, imputeM = "KNN",
-  plot = FALSE)
+  coCV = 30, plot = FALSE)
 }
 \arguments{
 \item{samPeno}{The file with the meta information including the sample name,
@@ -36,6 +36,8 @@ or local polynomial fits (degree=2, the default) for QC-RLSC.}
 averaging, 'KNN'; minimum values, 'min'; Half of minimum values, 'minHalf'; 
 median values, 'median'.}
 
+\item{coCV}{Define the cutoff value (0-100) of CV for controlling the number of features.}
+
 \item{plot}{Defines if images of feature quality should be generated (TRUE) or not (FALSE). 
 Defaults to FALSE.}
 }
@@ -50,7 +52,7 @@ large scale metabolomics and targeted proteomics.
 datpath <- system.file('extdata',package = 'statTarget')
 samPeno <- paste(datpath,'MTBLS79_sampleList.csv', sep='/')
 samFile <- paste(datpath,'MTBLS79.csv', sep='/')
-shiftCor(samPeno,samFile, Frule = 0.8, MLmethod = 'QCRFSC', QCspan = 0,imputeM = 'KNN')
+shiftCor(samPeno,samFile, MLmethod = 'QCRFSC', imputeM = 'KNN',coCV = 30)
 }
 \keyword{Controls,Correction}
 \keyword{Quality}

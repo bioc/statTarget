@@ -8,7 +8,7 @@ sT_univariate <- function(file, FDR = FDR, plot.volcano, upper.lim, lower.lim, s
     write.csv(comp.x, pwdfile, row.names = FALSE)
     
     # cal min no. of levels
-    checkNum <- min(summary(as.factor(comp.x[,2])))
+    checkNum <- min(summary(as.factor(comp.x[,1])))
     
     cat("\n", "P-value Calculating...")
     
