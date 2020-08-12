@@ -457,7 +457,11 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     cfid <- which(Rsdist_QC_cor > coCV/100) + 2
     
     # filter lo_temp_qc
-    lo_temp_qc_filter <- lo_temp_qc[,-cfid]
+    if(length(cfid) == 0) {
+      lo_temp_qc_filter <- lo_temp_qc
+    } else {
+    lo_temp_qc_filter <- lo_temp_qc[,-cfid]}
+    
     #output
     RSD30_CV = paste("shift_QC_cor", ".csv", sep = "")
     write.csv(lo_temp_qc_filter, paste(dirout.As, RSD30_CV, sep = "/"))
