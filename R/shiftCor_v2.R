@@ -45,14 +45,21 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     cat(" metaFile:", samPeno, "\n")
     cat(" profileFile:", samFile, "\n")
     
+    # read the data
     samPeno <- read.csv(samPeno, header = TRUE, check.names = FALSE, stringsAsFactors = FALSE)
     samPeno <- as.data.frame(samPeno)
+    # check the title
+    checkPeno <- match(c("sample", "batch",  "class",  "order" ),colnames(samPeno))
+    if(sum(is.na(checkPeno)) > 0) stop("The names in column of metaFile should be `sample`, `batch`,  `class`,  `order`")
     samPeno <- plyr::arrange(samPeno, order)
     samFile <- read.csv(samFile, header = FALSE, check.names = FALSE, stringsAsFactors = FALSE)
     samFile <- t(samFile)
     colnames(samFile) <- samFile[1, ]
     samFile <- as.data.frame(samFile[-1, ])
     rownames(samFile) <- samFile$name
+    checkPro <- match(c("name" ),colnames(samFile)[1])
+    if(sum(is.na(checkPro)) > 0) stop("The names in column of profileFile should be `name`")
+    
     
     ############## Checking the input file#############
     
