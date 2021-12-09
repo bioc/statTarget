@@ -19,48 +19,37 @@
 #' version of Windows 7, or newer for most users for RGTK2 installation. 
 #' For mac OS PC, XQuartz instead of X11 support should be installed for the 
 #' Graphical User Interface (GUI). The R 3.3.0 and RGtk2 2.20.31 sailed through the test.
+#' 
+#' * Installation of RGtk2, gWidgets2 and gWidgets2RGtk2, firstly
+#' 
+#' install.packages("RGtk2")
+#' 
+#' BiocManager::install(c("statTarget/gWidgets2","statTarget/gWidgets2RGtk2"),force = TRUE)
+#' 
 #' @examples 
 #' if (interactive()) {statTargetGUI()}
 #' @export
 statTargetGUI <- function() {
-    
+   
+  
     # load_require RGtk2 package
     if (requireNamespace("RGtk2", quietly = TRUE)) {
         print("RGtk2 is loaded correctly")
     } else {
         print("trying to install RGtk2. RGtk2 is preferred on Windows ")
-        utils::install.packages("RGtk2")
-        if (requireNamespace("RGtk2", quietly = TRUE)) {
-            print("RGtk2 installed and loaded")
-        } else {
-            stop("could not install RGtk2")
-        }
     }
-    
+  if (require("gWidgets2")) {
+    print("gWidgets2 is loaded correctly")
+  } else {
+    print("trying to install gWidgets2")
+  }
     
     if (require("gWidgets2RGtk2")) {
         print("gWidgets2RGtk2 is loaded correctly")
     } else {
         print("trying to install gWidgets2RGtk2")
-        utils::install.packages("gWidgets2RGtk2")
-        if (require("gWidgets2RGtk2")) {
-            print("gWidgets2RGtk2 installed and loaded")
-        } else {
-            stop("could not install gWidgets2RGtk2")
-        }
     }
     
-    if (require("gWidgets2")) {
-        print("gWidgets2 is loaded correctly")
-    } else {
-        print("trying to install gWidgets2")
-        utils::install.packages("gWidgets2")
-        if (require("gWidgets2")) {
-            print("gWidgets2 installed and loaded")
-        } else {
-            stop("could not install gWidgets2")
-        }
-    }
     
     # GUI
     
