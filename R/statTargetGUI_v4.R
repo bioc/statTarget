@@ -32,24 +32,65 @@
 statTargetGUI <- function() {
    
   
-    # load_require RGtk2 package
+  # load_require RGtk2 package
+  if (requireNamespace("RGtk2", quietly = TRUE)) {
+    print("RGtk2 is loaded correctly")
+  } else {
+    print("trying to install RGtk2. ")
+    utils::install.packages("RGtk2")
     if (requireNamespace("RGtk2", quietly = TRUE)) {
-        print("RGtk2 is loaded correctly")
+      print("RGtk2 installed and loaded")
     } else {
-        print("trying to install RGtk2. RGtk2 is preferred on Windows ")
+      stop("could not install RGtk2")
     }
-  if (require("gWidgets2")) {
+  }
+  
+  if (requireNamespace("gWidgets2")) {
     print("gWidgets2 is loaded correctly")
   } else {
     print("trying to install gWidgets2")
-  }
     
-    if (require("gWidgets2RGtk2")) {
-        print("gWidgets2RGtk2 is loaded correctly")
+
+    if ('remotes' %in% .packages(all.available = TRUE)) {
+      print("remotes is loaded correctly")
+    } else {utils::install.packages("remotes")} 
+    if ('remotes' %in% .packages(all.available = TRUE)) {
+      print("remotes installed and loaded")
     } else {
-        print("trying to install gWidgets2RGtk2")
+      stop("could not install remotes")
     }
     
+    if ('git2r' %in% .packages(all.available = TRUE)) {
+      print("git2r is loaded correctly")
+    } else {utils::install.packages("git2r")} 
+    if ('git2r' %in% .packages(all.available = TRUE)) {
+      print("git2r installed and loaded")
+    } else {
+      stop("could not install git2r")
+    }
+    
+    
+    remotes::install_git("https://gitee.com/hemiluan/gWidgets2.git")
+    #utils::install.packages("gWidgets2")
+    if (requireNamespace("gWidgets2")) {
+      print("gWidgets2 installed and loaded")
+    } else {
+      stop("could not install gWidgets2")
+    }
+  }
+  
+  if ('gWidgets2RGtk2' %in% .packages(all.available = TRUE)) {
+    print("gWidgets2RGtk2 is loaded correctly")
+  } else {
+    print("trying to install gWidgets2RGtk2")
+    remotes::install_git("https://gitee.com/hemiluan/gWidgets2RGtk2.git")
+    if ('gWidgets2RGtk2' %in% .packages(all.available = TRUE)) {
+      print("gWidgets2RGtk2 installed and loaded")
+    } else {
+      stop("could not install gWidgets2RGtk2")
+    }
+  }
+  
     
     # GUI
     
@@ -117,7 +158,7 @@ statTargetGUI <- function() {
     shiftco_win = gWidgets2::ggroup(horizontal = FALSE, cont = nb, label = "Signal Correction")
     stat_win = gWidgets2::ggroup(horizontal = FALSE, cont = nb, label = "Statistical Analysis")
     mix = gWidgets2::ggroup(horizontal = FALSE, cont = nb, label = "Trans-->X")
-    sb <- gWidgets2::gstatusbar("Contact Us: luanhm@sustc.edu.cn\nSouthern University of Science and Technology", container = win)
+    sb <- gWidgets2::gstatusbar("Contact Us: luanhm@sustech.edu.cn\nSouthern University of Science and Technology", container = win)
     gWidgets2::font(sb) <- list(size = 9, color = "blue")
     svalue(nb) <- 1
     

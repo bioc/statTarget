@@ -83,6 +83,8 @@
 #' @importFrom stats aggregate
 #' @importFrom utils setTxtProgressBar 
 #' @importFrom utils txtProgressBar
+
+
 work_dir <- function(dir.name) {
     WorkinDir = paste(getwd(), "/", dir.name, "/", sep = "")
     dir.create(WorkinDir)
