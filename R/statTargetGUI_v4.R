@@ -22,9 +22,6 @@
 #' 
 #' * Installation of RGtk2, gWidgets2 and gWidgets2RGtk2, firstly
 #' 
-#' install.packages("RGtk2")
-#' 
-#' BiocManager::install(c("statTarget/gWidgets2","statTarget/gWidgets2RGtk2"),force = TRUE)
 #' 
 #' @examples 
 #' if (interactive()) {statTargetGUI()}
@@ -50,11 +47,8 @@ statTargetGUI <- function() {
       stop("could not install git2r")
     }
     
-  
-  
-  # load_require RGtk2 package
-  
-  if ('RGtk2' %in% .packages(all.available = TRUE)) {
+
+    if ('RGtk2' %in% .packages(all.available = TRUE)) {
     print("RGtk2 is loaded correctly")
   } else {
     print("trying to install RGtk2 from gitee")
@@ -77,9 +71,7 @@ statTargetGUI <- function() {
       stop("could not install gWidgets2")
     }
   }
-  
-  
-  
+
   if ('gWidgets2RGtk2' %in% .packages(all.available = TRUE)) {
     print("gWidgets2RGtk2 is loaded correctly")
   } else {
@@ -91,6 +83,8 @@ statTargetGUI <- function() {
       stop("could not install gWidgets2RGtk2")
     }
   }
+  
+  
   
     
     # GUI
