@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.25.4
+----------------------------------
+
++ Remove the RGtk2 in Description, which should be installed manually from the old source
+
+
 
 CHANGES IN VERSION 1.21.1
 ----------------------------------

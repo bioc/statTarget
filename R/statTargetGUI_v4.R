@@ -19,9 +19,8 @@
 #' version of Windows 7, or newer for most users for RGTK2 installation. 
 #' For mac OS PC, XQuartz instead of X11 support should be installed for the 
 #' Graphical User Interface (GUI). The R 3.3.0 and RGtk2 2.20.31 sailed through the test.
-#' 
 #' * Installation of RGtk2, gWidgets2 and gWidgets2RGtk2, firstly
-#' 
+#' * Due to the RGtk2 have been removed from CRAN, should be installed manually from the old source, Link: https://cran.r-project.org/src/contrib/Archive/RGtk2/
 #' 
 #' @examples 
 #' if (interactive()) {statTargetGUI()}
@@ -51,14 +50,10 @@ statTargetGUI <- function() {
     if ('RGtk2' %in% .packages(all.available = TRUE)) {
     print("RGtk2 is loaded correctly")
   } else {
-    print("trying to install RGtk2 from gitee")
-    remotes::install_git("https://gitee.com/hemiluan/RGtk2.git")
-    if ('RGtk2' %in% .packages(all.available = TRUE)) {
-      print("RGtk2 installed and loaded")
-    } else {
-      stop("could not install RGtk2")
-    }
-  }
+      
+      stop("\n=========================\nRGtk2 is missing. \nDue to the RGtk2 have been removed from CRAN, should be installed manually from the old source, Link: https://cran.r-project.org/src/contrib/Archive/RGtk2/\n=========================")
+          }
+  
   
   if ('gWidgets2' %in% .packages(all.available = TRUE)) {
     print("gWidgets2 is loaded correctly")
