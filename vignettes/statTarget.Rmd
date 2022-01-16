@@ -1,7 +1,7 @@
 ---
 title: 'statTarget'
 author: "Hemi Luan"
-date: "Modified: 5 Dec 2017. Compiled: `r format(Sys.Date(), '%d %b %Y')`"
+date: "Modified: 5 Jan 2022. Compiled: `r format(Sys.Date(), '%d %b %Y')`"
 output: 
   BiocStyle::html_document:
     toc: true
@@ -92,6 +92,8 @@ Biomarkers analysis: ROC, Odd ratio, Adjusted P-value, Box plot and Volcano plot
 library(statTarget)
 
 statTargetGUI()
+
+#Due to the RGtk2 have been removed from CRAN, RGtk2 should be installed manually from the old source, Link: https://cran.r-project.org/src/contrib/Archive/RGtk2/
 
 #For mac PC,  the GUI function 'statTargetGUI()' need the XQuartz instead of X11 support. Download it from https://www.xquartz.org. R 3.3.0 and RGtk2 2.20.31 are recommended for RGtk2 installation.
 
