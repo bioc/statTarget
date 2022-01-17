@@ -7,9 +7,9 @@ Maintainer: Hemi Luan <hemi.luan@gmail.com>
 Depends: R (>= 3.6.0)
 Imports:
         randomForest,plyr,pdist,ROC,utils,grDevices,graphics,rrcov,stats,
-        pls,impute
+        pls,impute, gWidgets2
 VignetteBuilder: knitr
-Suggests: testthat, BiocStyle, knitr, rmarkdown,gWidgets2, remotes, git2r
+Suggests: testthat, BiocStyle, knitr, rmarkdown
 Description: A streamlined tool provides a graphical user interface for
     quality control based signal drift correction (QC-RFSC), integration of
     data from multi-batch MS-based experiments, and the

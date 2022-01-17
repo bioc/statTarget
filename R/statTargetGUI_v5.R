@@ -27,61 +27,22 @@
 #' @export
 statTargetGUI <- function() {
    
-    
-    if ('remotes' %in% .packages(all.available = TRUE)) {
-      print("remotes is loaded correctly")
-    } else {utils::install.packages("remotes")} 
-    if ('remotes' %in% .packages(all.available = TRUE)) {
-      print("remotes installed and loaded")
-    } else {
-      stop("could not install remotes")
-    }
-    
-    if ('git2r' %in% .packages(all.available = TRUE)) {
-      print("git2r is loaded correctly")
-    } else {utils::install.packages("git2r")} 
-    if ('git2r' %in% .packages(all.available = TRUE)) {
-      print("git2r installed and loaded")
-    } else {
-      stop("could not install git2r")
-    }
-    
 
     if ('RGtk2' %in% .packages(all.available = TRUE)) {
     print("RGtk2 is loaded correctly")
   } else {
       
       stop("\n=========================\nRGtk2 is missing. \nDue to the RGtk2 have been removed from CRAN, should be installed manually from the old source, Link: https://cran.r-project.org/src/contrib/Archive/RGtk2/\n=========================")
-          }
-  
-  
-  if ('gWidgets2' %in% .packages(all.available = TRUE)) {
-    print("gWidgets2 is loaded correctly")
-  } else {
-    print("trying to install gWidgets2 from gitee")
-    remotes::install_git("https://gitee.com/hemiluan/gWidgets2.git")
-    if ('gWidgets2' %in% .packages(all.available = TRUE)) {
-      print("gWidgets2 installed and loaded")
-    } else {
-      stop("could not install gWidgets2")
-    }
   }
 
   if ('gWidgets2RGtk2' %in% .packages(all.available = TRUE)) {
     print("gWidgets2RGtk2 is loaded correctly")
   } else {
-    print("trying to install gWidgets2RGtk2 from gitee")
-    remotes::install_git("https://gitee.com/hemiluan/gWidgets2RGtk2.git")
-    if ('gWidgets2RGtk2' %in% .packages(all.available = TRUE)) {
-      print("gWidgets2RGtk2 installed and loaded")
-    } else {
-      stop("could not install gWidgets2RGtk2")
-    }
+    
+    stop("\n=========================\ngWidgets2RGtk2 is missing. \nDue to the gWidgets2RGtk2 have been removed from CRAN, should be installed manually from the old source, Link: https://cran.r-project.org/src/contrib/Archive/gWidgets2RGtk2/\n=========================")
   }
   
-  
-  
-    
+
     # GUI
     
     color <- grDevices::colors()

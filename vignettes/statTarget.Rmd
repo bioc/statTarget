@@ -38,7 +38,6 @@ This document is intended to guide the user to use the functions to
 perform data analysis, such as shiftCor, statAnalysis, statTargetGUI functions, etc.
 
 
-![ ](https://raw.githubusercontent.com/13479776/Picture/master/QCorrection.jpg "QC-based signal correction")
 
 
 ##  Package overview
@@ -54,6 +53,7 @@ A streamlined tool provides graphical user interface for quality control based s
  
  Luan H., Ji F., Chen Y., Cai Z. (2018) Quality control-based signal drift correction and interpretations of metabolomics/proteomics data using random forest regression. bioRxiv 253583; doi: https://doi.org/10.1101/253583
 
+![ ](https://raw.githubusercontent.com/13479776/Picture/master/QCorrection.jpg "QC-based signal correction")
 
 ## What does statTarget offer statistically
 
@@ -85,27 +85,41 @@ Biomarkers analysis: ROC, Odd ratio, Adjusted P-value, Box plot and Volcano plot
 
 
 ### statTargetGUI 
+ 
+
+ RGtk2 and gWidgets2RGtk2 appears to have been retired from CRAN. To install it from the Microsoft CRAN snapshots:
+
+ On Linux: install.packages("https://cran.microsoft.com/snapshot/2021-12-15/src/contrib/RGtk2_2.20.36.2.tar.gz", repos=NULL)
+
+ On Windows: install.packages("https://cran.microsoft.com/snapshot/2021-12-15/bin/windows/contrib/4.1/RGtk2_2.20.36.2.zip", repos=NULL)
+
+ On Mac: install.packages("https://cran.microsoft.com/snapshot/2021-12-15/bin/macosx/contrib/4.1/RGtk2_2.20.36.2.tgz", repos=NULL)
+ 
+ 
+
+ For mac PC,  the GUI function 'statTargetGUI()' need the XQuartz instead of X11 support. Download it from https://www.xquartz.org. R 3.3.0 and RGtk2 2.20.31 are recommended for RGtk2 installation.
+
+
+
 
 ```
 ## Examples Code for graphical user interface 
+
+require(RGtk2)
+require(gWidgets2RGtk2)
 
 library(statTarget)
 
 statTargetGUI()
 
-#Due to the RGtk2 have been removed from CRAN, RGtk2 should be installed manually from the old source, Link: https://cran.r-project.org/src/contrib/Archive/RGtk2/
-
-#For mac PC,  the GUI function 'statTargetGUI()' need the XQuartz instead of X11 support. Download it from https://www.xquartz.org. R 3.3.0 and RGtk2 2.20.31 are recommended for RGtk2 installation.
-
 ```
 
+
+`statTargetGUI`
 
 <img src=
 "https://raw.githubusercontent.com/13479776/Picture/master/interface.jpg" 
 width = "350" height = "500" alt="statTargetGUI" align=center />
-
-`statTargetGUI`
-
 
 
 Download the [Reference manual](https://github.com/13479776/Picture/blob/master/statTarget-manual.pdf) and [example data](https://github.com/13479776/Picture/raw/master/Data_example.zip) .
@@ -398,13 +412,17 @@ statTarget -- shiftCor
 - **The Figures:**
 
 
+<img src=
+"https://raw.githubusercontent.com/13479776/Picture/master/shiftC-14.jpg" >
+
+
 Loplot (left): the visible image of quality control images for each features
 
 
 The RSD distribution (right): 
 The relative standard deviation of peaks in the samples and QCs
-<img src=
-"https://raw.githubusercontent.com/13479776/Picture/master/shiftC-14.jpg" >
+ <img src=
+"https://github.com/13479776/Picture/raw/master/statA_16.jpg">
 
  
 - **The status log (Example data):**
@@ -626,8 +644,6 @@ statTarget -- statAnalysis
 
 - **The Figures:**
  
-<img src=
-"https://github.com/13479776/Picture/raw/master/statA_16.jpg">
 
 - **The status log (Example data):**
 
