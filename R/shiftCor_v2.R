@@ -1,10 +1,10 @@
 #' @name shiftCor
-#' @title shiftCor for GUI
+#' @title shiftCor
 #' @description  shiftCor provides the QC based signal correction for 
 #' large scale metabolomics and targeted proteomics.
-#' @param samPeno The file with the meta information including the sample name,
+#' @param samPeno File path. The file with the meta information including the sample name,
 #'  batches, class and order. 
-#' @param samFile The file with the expression information. 
+#' @param samFile File path. The file with the expression information. 
 #' @param Frule Modified n precent rule function. A variable will be kept if it has a non-zero value
 #' for at least n precent of samples in any one group. 
 #' (Default: 0.8)  
@@ -29,6 +29,8 @@
 #' datpath <- system.file('extdata',package = 'statTarget')
 #' samPeno <- paste(datpath,'MTBLS79_sampleList.csv', sep='/')
 #' samFile <- paste(datpath,'MTBLS79.csv', sep='/')
+#' samPeno
+#' samFile
 #' shiftCor(samPeno,samFile, MLmethod = 'QCRFSC', imputeM = 'KNN',coCV = 30)
 #' @keywords Quality Controls,Correction
 #' @export 
@@ -91,13 +93,13 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     samFP <- samFile[samPeno$sample, ]
     
     if (sum(is.na(samPeno$class)) <= 0) {
-        stop("\n", "There were no QC samples in your data!")
+        stop("\n", "There were no QC samples in your data! NA should be defined for QC samples in `class` ")
     }
     
     samPeno_stat <- samPeno
     rownames(samPeno_stat) <- samPeno[, 1]
     qc_seq <- rownames(samPeno_stat)
-    qc_seq_tmp <- grep("QC", qc_seq)
+    qc_seq_tmp <- grep("QC|qc|Qc", qc_seq)
     
     
     
@@ -142,22 +144,9 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     imsamFP <- samFP_temp
     ############# Filter miss value###################
     
-    FilterMV = function(m, degree) {
-        dx <- c()
-        for (i in 1:ncol(m)) {
-            freq <- as.vector(tapply(m[, i], degree, function(x) {
-                sum(is.na(x))/length(x)
-            }))
-            if (sum(freq > 1 - Frule) > 0) 
-                dx <- c(dx, i)
-        }
-        if (length(dx) > 0) 
-            m <- m[, -dx]
-        return(m)
-    }
     classF <- as.factor(samPeno$class)
     classF = addNA(classF)
-    imsamFPF = FilterMV(imsamFP, classF)
+    imsamFPF = FilterMV(imsamFP, classF, rule = Frule)
     Frule_warning = paste("The number of filtered variables using the modified ", Frule * 100, "% rule :", 
         sep = " ")
     cat("\n", Frule_warning, " ", dim(imsamFP)[2] - dim(imsamFPF)[2], "\n")
@@ -175,50 +164,19 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     } else if (imputeM == "min") {
         cat("\n", "The imputation method was set at 'min'")
         
-        minValue <- function(x, group) {
-            group = as.factor(as.numeric(group))
-            for (i in 1:dim(x)[1]) {
-                for (j in 1:dim(x)[2]) {
-                  if (is.na(x[i, j]) == TRUE) {
-                    x[i, j] <- tapply(as.numeric(x[, j]), group, min, na.rm = TRUE)[group[i]]
-                  }
-                }
-            }
-            return(x)
-        }
+
         inputedData = minValue(imsamFP, classF)
         # inputedData = inputedData[,-1]
         
     } else if (imputeM == "minHalf") {
         cat("\n", "The imputation method was set at 'minHalf'")
         
-        minHalfValue <- function(x, group) {
-            group = as.factor(as.numeric(group))
-            for (i in 1:dim(x)[1]) {
-                for (j in 1:dim(x)[2]) {
-                  if (is.na(x[i, j]) == TRUE) {
-                    x[i, j] <- tapply(as.numeric(x[, j]), group, min, na.rm = TRUE)[group[i]]/2
-                  }
-                }
-            }
-            return(x)
-        }
         inputedData = minHalfValue(imsamFP, classF)
         # inputedData = inputedData[,-1]
         
     } else if (imputeM == "median") {
         
-        medianvalue <- function(x, group) {
-            group = as.factor(as.numeric(group))
-            for (i in 1:dim(x)[1]) {
-                for (j in 1:dim(x)[2]) {
-                  if (is.na(x[i, j]) == TRUE) {
-                    x[i, j] <- tapply(as.numeric(x[, j]), group, median, na.rm = TRUE)[group[i]]
-                  }
-                }
-            }
-            return(x)
-        }
+
         
         cat("\n", "The imputation method was set at 'median'")
         
@@ -246,33 +204,7 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
         # require(randomForest)
         cat("\n", "The Signal Correction method was set at QC-RFSC", "\n")
         
-        REGfit = function(x, y, ntree = ntree) {
-            cn <- colnames(x)
-            x <- as.matrix(x)
-            #### Check########
-            st_QC <- grep("QC", cn[1])
-            ed_QC <- grep("QC", cn[length(cn)])
-            if (length(st_QC) == 0) {
-                stop("\nWrong: the first sample must be QC sample; please check ......")
-            }
-            if (length(ed_QC) == 0) {
-                stop("\nWrong: the sample at the end of sequence must be QC sample; 
-          please check ......")
-            }
-            qcid <- grep("QC", cn)
-            pb <- txtProgressBar(min = 1, max = dim(x)[1], style = 3)
-            for (i in 1:dim(x)[1]) {
-                temp <- randomForest(data.frame(qcid), as.numeric(x[i, qcid]), ntree = ntree)
-                y <- data.frame(y)
-                colnames(y) <- "qcid"
-                rfP <- predict(temp, y)
-                x[i, ] <- as.numeric(x[i, ])/rfP
-                setTxtProgressBar(pb, i)
-            }
-            close(pb)
-            loessDat = x
-            return(loessDat)
-        }
+
         loessDat <- REGfit(x = dat, y = numX, ntree = ntree)
     }
     
@@ -284,82 +216,11 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
         
         if (QCspan > 0) {
             
-            loessFit = function(x, y, QCspan, degree) {
-                cn <- colnames(x)
-                #### Check########
-                st_QC <- grep("QC", cn[1])
-                ed_QC <- grep("QC", cn[length(cn)])
-                if (length(st_QC) == 0) {
-                  stop("the first sample must be QC sample; please check ......")
-                }
-                if (length(ed_QC) == 0) {
-                  stop("the sample at the end of sequence must be QC sample; 
-          please check ......")
-                }
-                qcid <- grep("QC", cn)
-                
-                pb <- txtProgressBar(min = 1, max = dim(x)[1], style = 3)
-                
-                for (i in 1:dim(x)[1]) {
-                  loe <- stats::loess(x[i, qcid] ~ qcid, span = QCspan, degree = degree)
-                  yf <- stats::predict(loe, y)
-                  x[i, ] <- as.numeric(x[i, ])/yf
-                  setTxtProgressBar(pb, i)
-                }
-                close(pb)
-                loessDat = x
-                return(loessDat)
-            }
             loessDat <- loessFit(x = dat, y = numX, QCspan = QCspan, degree = degree)
         } else if (QCspan <= 0) {
             cat("\n", "Warning: The QCspan was set at '0'.")
             message("\n", " The GCV was used to avoid overfitting the observed data")
-            autoFit <- function(xl, y) {
-                cn <- colnames(xl)
-                #### Check########
-                st_QC <- grep("QC", cn[1])
-                ed_QC <- grep("QC", cn[length(cn)])
-                if (length(st_QC) == 0) {
-                  stop("the first sample must be QC sample; please check ......")
-                }
-                if (length(ed_QC) == 0) {
-                  stop("the sample at the end of sequence must be QC sample; 
-          please check ......")
-                }
-                qcid <- grep("QC", cn)
-                pb <- txtProgressBar(min = 1, max = dim(xl)[1], style = 3)
-                
-                for (i in 1:dim(xl)[1]) {
-                  
-                  Sys.sleep(1e-06)
-                  
-                  loe1 <- loess(xl[i, qcid] ~ qcid)
-                  # loe2 <- loe1
-                  env <- environment()
-                  sploe <- function(sp) {
-                    loe2 <- get("loe1", envir = env)
-                    mod <- stats::update(loe2, span = sp)
-                    CVspan = loessGCV(mod)[["gcv"]]
-                  }
-                  sp <- c(seq(0.5, 0.75, 0.01))
-                  CVspan = as.matrix(lapply(sp, sploe))
-                  CVspan[!is.finite(as.numeric(CVspan))] <- NA
-                  minG <- data.frame(sp, CVspan)
-                  minspan <- minG[which.min(minG[, 2]), 1]
-                  minspan
-                  # sp <- c(seq(0.05,0.75,0.01)) CVspan <-c() for(j in 1:length(sp)){ mod <- stats::update(loe1,
-                  # span = sp[j]) CVspan[j] = loessGCV(mod)[['gcv']] } minG <- as.matrix(data.frame(sp,CVspan))
-                  # minG[!is.finite(minG)] <- max(minG[,2],na.rm = TRUE) minspan <- minG[which.min(minG[,2]),1]
-                  # minspan
-                  loeN <- stats::update(loe1, span = minspan)
-                  yf <- predict(loeN, y)
-                  xl[i, ] <- as.numeric(xl[i, ])/yf
-                  setTxtProgressBar(pb, i)
-                }
-                close(pb)
-                loessDat = xl
-                return(loessDat)
-            }
+            
             loessDat <- autoFit(xl = dat, y = numX)
         }
         
@@ -379,17 +240,7 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     }
     loessDatT[loessDatT == 0L] <- NA
     if (sum(is.na(loessDatT) > 0)) {
-        minHalfValue <- function(x, group) {
-            group = as.factor(as.numeric(group))
-            for (i in 1:dim(x)[1]) {
-                for (j in 1:dim(x)[2]) {
-                  if (is.na(x[i, j]) == TRUE) {
-                    x[i, j] <- tapply(as.numeric(x[, j]), group, min, na.rm = TRUE)[group[i]]/2
-                  }
-                }
-            }
-            return(x)
-        }
+
         loessDatT <- minHalfValue(t(loessDatT), classF)
         loessDatT <- t(loessDatT)
         cat("\n", "The number of missing value after QC-based signal correction: ", sum(is.na(loessDatT)), 
@@ -422,7 +273,7 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     nam_qc <- rownames(raw_temp)
     
     ##### QC Cal################
-    QC_temp_raw <- grep("QC", nam_qc)
+    QC_temp_raw <- grep("QC|qc|Qc", nam_qc)
     QC_temp_raw <- raw_temp[c(QC_temp_raw), ]
     raw_temp_qc <- QC_temp_raw[, -c(3, 4)]
     rownames(raw_temp_qc) <- NULL
@@ -433,7 +284,7 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     Rsdist_QC_raw = RsdCal(raw_temp_qc, batch = TRUE, DistPattern = TRUE, output = FALSE)
     
     ##### Sample Cal################
-    sam_temp_raw <- grep("QC", nam_qc)
+    sam_temp_raw <- grep("QC|qc|Qc", nam_qc)
     sam_temp_raw <- raw_temp[-c(sam_temp_raw), ]
     raw_temp_sam <- sam_temp_raw[, -c(3, 4)]
     rownames(raw_temp_sam) <- NULL
@@ -450,7 +301,7 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     nam_qc <- rownames(lo_temp)
       
     ############ loess QC Cal#############
-    QC_temp <- grep("QC", nam_qc)
+    QC_temp <- grep("QC|qc|Qc", nam_qc)
     QC_temp <- lo_temp[c(QC_temp), ]
     lo_temp_qc <- QC_temp[, -c(3, 4)]
     rownames(lo_temp_qc) <- NULL
@@ -475,7 +326,7 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     
     
     ############ loess sam Cal#############
-    QC_temp <- grep("QC", nam_qc)
+    QC_temp <- grep("QC|qc|Qc", nam_qc)
     QC_temp <- lo_temp[-c(QC_temp), ]
     lo_temp_sam <- QC_temp[, -c(2, 4)]
     rownames(lo_temp_sam) <- NULL
@@ -522,6 +373,7 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     cat("\n", "Correction Finished! Time: ", date(), "\n")
     cat("\n", "####################################", "\n")
     cat(" # Software Version: statTarget 2.0 + #", "\n")
+    cat(" # Email: luanhm@sustech.edu.cn#", "\n")
     cat(" ####################################", "\n")
     
     ################## Loess Plot########################

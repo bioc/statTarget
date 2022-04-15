@@ -2,7 +2,7 @@
 % Please edit documentation in R/shiftCor_v2.R
 \name{shiftCor}
 \alias{shiftCor}
-\title{shiftCor for GUI}
+\title{shiftCor}
 \usage{
 shiftCor(
   samPeno,
@@ -18,10 +18,10 @@ shiftCor(
 )
 }
 \arguments{
-\item{samPeno}{The file with the meta information including the sample name,
+\item{samPeno}{File path. The file with the meta information including the sample name,
 batches, class and order.}
 
-\item{samFile}{The file with the expression information.}
+\item{samFile}{File path. The file with the expression information.}
 
 \item{Frule}{Modified n precent rule function. A variable will be kept if it has a non-zero value
 for at least n precent of samples in any one group. 
@@ -61,6 +61,8 @@ large scale metabolomics and targeted proteomics.
 datpath <- system.file('extdata',package = 'statTarget')
 samPeno <- paste(datpath,'MTBLS79_sampleList.csv', sep='/')
 samFile <- paste(datpath,'MTBLS79.csv', sep='/')
+samPeno
+samFile
 shiftCor(samPeno,samFile, MLmethod = 'QCRFSC', imputeM = 'KNN',coCV = 30)
 }
 \keyword{Controls,Correction}

@@ -1,13 +1,13 @@
 Package: statTarget
 Type: Package
 Title: Statistical Analysis of Molecular Profiles
-Version: 1.25.5
+Version: 1.24.1
 Author: Hemi Luan
 Maintainer: Hemi Luan <hemi.luan@gmail.com>
 Depends: R (>= 3.6.0)
 Imports:
         randomForest,plyr,pdist,ROC,utils,grDevices,graphics,rrcov,stats,
-        pls,impute, gWidgets2
+        pls,impute
 VignetteBuilder: knitr
 Suggests: testthat, BiocStyle, knitr, rmarkdown
 Description: A streamlined tool provides a graphical user interface for
@@ -19,8 +19,8 @@ URL: https://stattarget.github.io
 biocViews: ImmunoOncology, Metabolomics, Proteomics, Machine Learning, Lipidomics,
         MassSpectrometry, QualityControl, Normalization, QC-RFSC, QC-RLSC, ComBat,
         DifferentialExpression, BatchEffect, Visualization,
-        MultipleComparison,Preprocessing, GUI, Software
-RoxygenNote: 7.1.1
+        MultipleComparison,Preprocessing, Software
+RoxygenNote: 7.1.2
 LazyData: true
 NeedsCompilation: no
 BuildVignettes: true
