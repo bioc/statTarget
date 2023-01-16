@@ -8,16 +8,8 @@
 #' @param Frule Modified n precent rule function. A variable will be kept if it has a non-zero value
 #' for at least n precent of samples in any one group. 
 #' (Default: 0.8)  
-#' @param MLmethod The machine learning method for QC based signal correction. 
-#' i.e. QC based random forest signal correction (QC-RFSC) and QC based LOESS signal 
-#' correction (QC-RLSC).
+#' @param MLmethod The machine learning method for QC based signal correction, such as QC based random forest signal correction (QC-RFSC). QC-RLSC was deprecated .
 #' @param ntree Number of trees to grow in random forest model.
-#' @param QCspan The smoothing parameter for QC-RLSC which controls the bias-variance 
-#' tradeoff in QC-RLSC method if the QCspan is set at '0', the generalised 
-#' cross-validation will be performed to avoid overfitting the observed data.
-#' @param degree Lets you specify local constant regression (i.e., the 
-#' Nadaraya-Watson estimator, degree=0), local linear regression (degree=1), 
-#' or local polynomial fits (degree=2, the default) for QC-RLSC.
 #' @param imputeM The parameter for imputation method i.e., nearest neighbor 
 #' averaging, 'KNN'; minimum values, 'min'; Half of minimum values, 'minHalf'; 
 #' median values, 'median'.
@@ -34,8 +26,7 @@
 #' shiftCor(samPeno,samFile, MLmethod = 'QCRFSC', imputeM = 'KNN',coCV = 30)
 #' @keywords Quality Controls,Correction
 #' @export 
-shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree = 500, QCspan = 0, 
-    degree = 2, imputeM = "KNN", coCV = 30, plot = FALSE) {
+shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree = 500,imputeM = "KNN", coCV = 30, plot = FALSE) {
     cat("\n")
     
     
@@ -58,10 +49,8 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     samFile <- t(samFile)
     colnames(samFile) <- samFile[1, ]
     samFile <- as.data.frame(samFile[-1, ])
-    rownames(samFile) <- samFile$name
-    checkPro <- match(c("name" ),colnames(samFile)[1])
-    if(sum(is.na(checkPro)) > 0) stop("The names in column of profileFile should be `name`")
-    
+    rownames(samFile) <- samFile[,1]
+
     
     ############## Checking the input file#############
     
@@ -209,23 +198,7 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     }
     
     #################################################### 
-    
-    
-    if (MLmethod == "QCRLSC") {
-        cat("\n", "The Signal Correction method was set at QCRLSC, QCspan:", QCspan, "\n")
-        
-        if (QCspan > 0) {
-            
-            loessDat <- loessFit(x = dat, y = numX, QCspan = QCspan, degree = degree)
-        } else if (QCspan <= 0) {
-            cat("\n", "Warning: The QCspan was set at '0'.")
-            message("\n", " The GCV was used to avoid overfitting the observed data")
-            
-            loessDat <- autoFit(xl = dat, y = numX)
-        }
-        
-    }
-    
+
     ############### dataCheck
     loessDatmp <- apply(loessDat, 2, function(x) as.numeric(as.character(x)))
     loessDatT <- loessDatmp * 1000
@@ -373,15 +346,15 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     cat("\n", "Correction Finished! Time: ", date(), "\n")
     cat("\n", "####################################", "\n")
     cat(" # Software Version: statTarget 2.0 + #", "\n")
-    cat(" # Email: luanhm@sustech.edu.cn#", "\n")
+    cat(" # Email: hemi.luan@gmail.com #", "\n")
     cat(" ####################################", "\n")
     
     ################## Loess Plot########################
     setwd(dirsc.ID)
     
     # parameter output
-    scPam1 <- c("Frule", "MLmethod", "ntree", "QCspan", "degree", "imputeM","coCV")
-    scPam2 <- c(Frule, MLmethod, ntree, QCspan, degree, imputeM, coCV)
+    scPam1 <- c("Frule", "MLmethod", "ntree", "degree", "imputeM","coCV")
+    scPam2 <- c(Frule, MLmethod, ntree, degree, imputeM, coCV)
     scpam <- data.frame(scPam1, scPam2)
     colnames(scpam) <- c("parameter", "value")
     par_sh = paste("statTarget/ParameterShiftCor", ".log", sep = "")

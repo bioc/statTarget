@@ -123,18 +123,6 @@ Modified n precent rule function. A variable will be kept if it has a non-zero v
 Number of trees to grow for QC-RFSC (Default: 500) .
 
 
-`QCspan`
-
-
-The smoothing parameter for QCRLSC which controls the bias-variance tradeoff. 
-The common range of QCspan value is from 0.5 to 0.75. If you choose
-a span that is too small then there will be a large variance. 
-If the span is too large, a large bias will be produced. 
-The default value of QCspan is set at '0', the generalised 
-cross-validation will be performed for choosing a good value, 
-avoiding overfitting of the observed data. (Default: 0) 
-
-
 
 `Imputation`
 
@@ -153,7 +141,7 @@ library(statTarget)
 datpath <- system.file('extdata',package = 'statTarget')
 samPeno <- paste(datpath,'MTBLS79_sampleList.csv', sep='/')
 samFile <- paste(datpath,'MTBLS79.csv', sep='/')
-shiftCor(samPeno,samFile, Frule = 0.8, MLmethod = "QCRFSC", QCspan = 0,imputeM = "KNN")
+shiftCor(samPeno,samFile, Frule = 0.8, MLmethod = "QCRFSC", imputeM = "KNN")
 # Combat for QC-free datasets
 samPeno2 <- paste(datpath,'MTBLS79_dQC_sampleList.csv', sep='/')
 shiftCor_dQC(samPeno2,samFile, Frule = 0.8, MLmethod = "Combat")

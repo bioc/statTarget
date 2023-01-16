@@ -10,8 +10,6 @@ shiftCor(
   Frule = 0.8,
   MLmethod = "QCRFSC",
   ntree = 500,
-  QCspan = 0,
-  degree = 2,
   imputeM = "KNN",
   coCV = 30,
   plot = FALSE
@@ -27,19 +25,9 @@ batches, class and order.}
 for at least n precent of samples in any one group. 
 (Default: 0.8)}
 
-\item{MLmethod}{The machine learning method for QC based signal correction. 
-i.e. QC based random forest signal correction (QC-RFSC) and QC based LOESS signal 
-correction (QC-RLSC).}
+\item{MLmethod}{The machine learning method for QC based signal correction, such as QC based random forest signal correction (QC-RFSC). QC-RLSC was deprecated .}
 
 \item{ntree}{Number of trees to grow in random forest model.}
-
-\item{QCspan}{The smoothing parameter for QC-RLSC which controls the bias-variance 
-tradeoff in QC-RLSC method if the QCspan is set at '0', the generalised 
-cross-validation will be performed to avoid overfitting the observed data.}
-
-\item{degree}{Lets you specify local constant regression (i.e., the 
-Nadaraya-Watson estimator, degree=0), local linear regression (degree=1), 
-or local polynomial fits (degree=2, the default) for QC-RLSC.}
 
 \item{imputeM}{The parameter for imputation method i.e., nearest neighbor 
 averaging, 'KNN'; minimum values, 'min'; Half of minimum values, 'minHalf'; 
