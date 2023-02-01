@@ -1,7 +1,6 @@
 Package: statTarget
 Type: Package
 Title: Statistical Analysis of Molecular Profiles
-<<<<<<< HEAD
 Version: 1.29.2
 Author: Hemi Luan
 Maintainer: Hemi Luan <hemi.luan@gmail.com>
