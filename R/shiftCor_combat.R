@@ -1,4 +1,4 @@
-#' @name shiftCor_dQC
+#' @name shiftCor_dQC (deprecated)
 #' @title QC-free based signal correction
 #' @description  shiftCor_dQC provides the QC-free based signal correction for 
 #' large scale mass spectrometry-based omics data.

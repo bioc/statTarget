@@ -353,8 +353,8 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     setwd(dirsc.ID)
     
     # parameter output
-    scPam1 <- c("Frule", "MLmethod", "ntree", "degree", "imputeM","coCV")
-    scPam2 <- c(Frule, MLmethod, ntree, degree, imputeM, coCV)
+    scPam1 <- c("Frule", "MLmethod", "ntree", "imputeM","coCV")
+    scPam2 <- c(Frule, MLmethod, ntree, imputeM, coCV)
     scpam <- data.frame(scPam1, scPam2)
     colnames(scpam) <- c("parameter", "value")
     par_sh = paste("statTarget/ParameterShiftCor", ".log", sep = "")
