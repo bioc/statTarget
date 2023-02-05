@@ -32,7 +32,7 @@ especially beneficial to improve the quality of data in multi-blocks
 experiments.
 
 
-   We will release a new version named `statTargetAPP` soon, If interested, you can contact via email (Dr. Hemi Luan <luanhm at sustech.edu.cn>)
+   We have released a new version named [statTargetAPP](https://github.com/statTarget/statTarget2/releases/tag/statTarget) with GUI interface. If interested, you can contact via email (Prof. Hemi Luan <hm-luan at msn.com>)
 
 
 ##  Package overview
@@ -52,7 +52,7 @@ A streamlined tool provides graphical user interface for quality control based s
 ## What does statTarget offer statistically
 
 The statTarget has two basic sections. The first section 
-is Signal Correction (See the shiftCor function). It includes 'Ensemble Learning' for QC based signal correction. For example, QC-based random forest correction (QC-RFSC) and QC-based LOESS signal correction (QCRLSC). In addition, Combat is also provided for QC free datasets. The second section is Statistical Analysis (See the statAnalysis function). It provides comprehensively computational and statistical methods that are commonly applied to analyze Omics data, and offers multiple results for biomarker discovery.
+is Signal Correction (See the shiftCor function). It includes 'Ensemble Learning' for QC based signal correction. For example, QC-based random forest correction (QC-RFSC). In addition, Combat is also provided for QC free datasets. The second section is Statistical Analysis (See the statAnalysis function). It provides comprehensively computational and statistical methods that are commonly applied to analyze Omics data, and offers multiple results for biomarker discovery.
 
 
 `Section 1 - Signal Correction` provide `ensemble learning method` for QC based signal correction. i.e. QC based random forest signal correction (QC-RFSC) that fit the QC data, 
@@ -114,7 +114,7 @@ Modified n precent rule function. A variable will be kept if it has a non-zero v
 `MLmethod`
  
 
- The QC-based signal correction (i.e. QC-RFSC, QC-RLSC.) or QC-free methods (Combat) 
+ The QC-based signal correction (i.e. QC-RFSC.) or QC-free methods (Combat) 
  
 
 `Ntree`
