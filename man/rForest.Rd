@@ -46,7 +46,7 @@ importance measures (PIMP-algorithm).
 }
 \examples{
 datpath <- system.file('extdata',package = 'statTarget')
-statFile <- paste(datpath,'data_example.csv', sep='/')
+statFile <- paste(datpath,'data_example_long.csv', sep='/')
 getFile <- read.csv(statFile,header=TRUE)
 rFtest <- rForest(getFile,ntree = 10,times = 5)
 }

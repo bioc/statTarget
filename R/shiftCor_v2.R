@@ -295,7 +295,9 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     
     #output
     RSD30_CV = paste("shift_QC_cor", ".csv", sep = "")
-    write.csv(lo_temp_qc_filter, paste(dirout.As, RSD30_CV, sep = "/"))
+    
+    lo_temp_qc_filter <- t(lo_temp_qc_filter)
+    write.table(lo_temp_qc_filter, paste(dirout.As, RSD30_CV, sep = "/"), sep = ",",col.names = FALSE)
     
     
     ############ loess sam Cal#############
@@ -312,7 +314,9 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     #lo_temp_sam_filter <- lo_temp_sam[,-cfid]
     
     RSD30_CV = paste("shift_sample_cor", ".csv", sep = "")
-    write.csv(lo_temp_sam_filter, paste(dirout.As, RSD30_CV, sep = "/"), row.names = FALSE)
+    
+    lo_temp_sam_filter <- t(lo_temp_sam_filter)
+    write.table(lo_temp_sam_filter, paste(dirout.As, RSD30_CV, sep = "/"), sep = ",",col.names = FALSE)
     
     ############ loess sample Cal############# Rsdist_sam_cor = RsdCal(lo_temp_sam,DistPattern = FALSE)
     ############ lo_temp_sam = cbind(seq(1,dim(lo_temp_sam)[1],1),lo_temp_sam)
@@ -334,7 +338,9 @@ shiftCor <- function(samPeno, samFile, Frule = 0.8, MLmethod = "QCRFSC", ntree =
     #lo_temp_all_filter <- lo_temp_all[,-cfid]
     
     RSD30_CV = paste("shift_all_cor", ".csv", sep = "")
-    write.csv(lo_temp_all_filter, paste(dirout.As, RSD30_CV, sep = "/"), row.names = FALSE)
+    
+    lo_temp_all_filter <- t(lo_temp_all_filter)
+    write.table(lo_temp_all_filter, paste(dirout.As, RSD30_CV, sep = "/"), sep = ",",col.names = FALSE)
     
     cat("\n* Step 5: ", paste("Removal of the features (CV% > ", coCV,"%)",sep=""),date(), "\n")
     

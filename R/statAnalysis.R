@@ -2,7 +2,7 @@
 #' @title statAnalysis for statistical analysis for omics data or others.
 #' @description statAnalysis provides the statistical analysis for metabolomics
 #'  data or others.
-#' @param file The file with the expression information. 
+#' @param file The file with the expression information with long format 
 #' @param Frule Modified n precent rule function. A variable will be kept if it has a non-zero value
 #' for at least n precent of samples in any one group. (Default: 0.8)  
 #' @param imputeM The parameter for imputation method i.e., nearest neighbor 
@@ -43,7 +43,7 @@
 #' @return The statAnalsis output files. See the details at https://stattarget.github.io
 #' @examples 
 #' datpath <- system.file('extdata',package = 'statTarget')
-#' file <- paste(datpath,'data_example.csv', sep='/')
+#' file <- paste(datpath,'data_example_long.csv', sep='/')
 #' statAnalysis(file,Frule = 0.8, normM = 'NONE', imputeM = 'KNN', glog = TRUE,scaling = 'Pareto')
 #' @author Hemi Luan, hemi.luan@gmail.com
 #' @export
@@ -57,7 +57,12 @@ statAnalysis <- function(file, Frule = 0.8, normM = "NONE", imputeM = "KNN", glo
     dir.create(dirout.uni)
     dirout.uni = paste(getwd(), "/statTarget/statAnalysis/", sep = "")
     dir.create(dirout.uni)
-    dat <- read.csv(file, header = TRUE)
+    
+    dat <- read.delim2(file, header = FALSE, sep = ",")
+    dat2 <- t(dat)
+    colnames(dat2) <- dat2[1,]
+    dat <- as.data.frame(dat2[-1,])
+
     cat("\n\nstatTarget: statistical analysis start... Time: ", date(), "\n\n")
     
     cat("* Step 1: Evaluation of missing value...", "\n")
@@ -67,6 +72,7 @@ statAnalysis <- function(file, Frule = 0.8, normM = "NONE", imputeM = "KNN", glo
     cat(" statFile:", file, "\n")
     
     imdat <- dat[, 3:ncol(dat)]
+    imdat <- apply(imdat,2, as.numeric)
     
     if (length(imdat[imdat < 0L]) > 0) {
         imdat[imdat < 0L] <- 0L
@@ -84,7 +90,8 @@ statAnalysis <- function(file, Frule = 0.8, normM = "NONE", imputeM = "KNN", glo
         for (i in 1:ncol(m)) {
             freq <- as.vector(tapply(m[, i], degree, function(x) {
                 sum(is.na(x) | as.matrix(x) == 0)/length(x)
-            }))
+            }
+            ))
             if (sum(freq > 1 - Frule) > 0) 
                 dx <- c(dx, i)
         }

@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.35.1
+----------------------------------
++ The long format for output from shiftCor
++ The long format for input from statAnalysis
 
 CHANGES IN VERSION 1.29.4
 ----------------------------------

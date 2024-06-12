@@ -26,7 +26,7 @@ statAnalysis(
 )
 }
 \arguments{
-\item{file}{The file with the expression information.}
+\item{file}{The file with the expression information with long format}
 
 \item{Frule}{Modified n precent rule function. A variable will be kept if it has a non-zero value
 for at least n precent of samples in any one group. (Default: 0.8)}
@@ -91,7 +91,7 @@ statAnalysis provides the statistical analysis for metabolomics
 }
 \examples{
 datpath <- system.file('extdata',package = 'statTarget')
-file <- paste(datpath,'data_example.csv', sep='/')
+file <- paste(datpath,'data_example_long.csv', sep='/')
 statAnalysis(file,Frule = 0.8, normM = 'NONE', imputeM = 'KNN', glog = TRUE,scaling = 'Pareto')
 }
 \author{

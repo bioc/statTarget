@@ -27,13 +27,6 @@ Object type is classification, for detail see randomForest package.
 \description{
 Prediction of test data using random forest in statTarget.
 }
-\examples{
-datpath <- system.file('extdata',package = 'statTarget')
-statFile <- paste(datpath,'data_example.csv', sep='/')
-getFile <- read.csv(statFile,header=TRUE)
-rFtest <- rForest(getFile,ntree = 10,times = 5)
-predictOutput <- predict_RF(rFtest, getFile[1:19,3:8])
-}
 \seealso{
 randomForest
 }

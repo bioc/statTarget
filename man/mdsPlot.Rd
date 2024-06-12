@@ -30,13 +30,6 @@ The output of cmdscale on 1 - rf$proximity is returned invisibly.
 Multi-dimensional scaling plot of proximity matrix from 
 randomForest.
 }
-\examples{
-datpath <- system.file('extdata',package = 'statTarget')
-statFile <- paste(datpath,'data_example.csv', sep='/')
-getFile <- read.csv(statFile,header=TRUE)
-rFtest <- rForest(getFile,ntree = 10,times = 5)
-mdsPlot(rFtest$randomForest,rFtest$pimpTest)
-}
 \seealso{
 MDSplot
 }

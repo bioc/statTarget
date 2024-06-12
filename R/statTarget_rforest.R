@@ -27,7 +27,7 @@
 #' seed = 123,...)
 #' @examples 
 #' datpath <- system.file('extdata',package = 'statTarget')
-#' statFile <- paste(datpath,'data_example.csv', sep='/')
+#' statFile <- paste(datpath,'data_example_long.csv', sep='/')
 #' getFile <- read.csv(statFile,header=TRUE)
 #' rFtest <- rForest(getFile,ntree = 10,times = 5)
 #' @references 
@@ -82,12 +82,6 @@ rForest <- function(file, ntree = 100, times = 100, gDist = TRUE, seed = 123, ..
 #' slinkDat, ...)
 #' @return The output of cmdscale on 1 - rf$proximity is returned invisibly.
 #' @seealso MDSplot
-#' @examples 
-#' datpath <- system.file('extdata',package = 'statTarget')
-#' statFile <- paste(datpath,'data_example.csv', sep='/')
-#' getFile <- read.csv(statFile,header=TRUE)
-#' rFtest <- rForest(getFile,ntree = 10,times = 5)
-#' mdsPlot(rFtest$randomForest,rFtest$pimpTest)
 #' @author Hemi Luan, hemi.luan@gmail.com
 #' @export
 mdsPlot <- function(rForest, pimpModel, Labels = TRUE, slink = FALSE, slinkDat, ...) {

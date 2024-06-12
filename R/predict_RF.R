@@ -13,12 +13,6 @@
 #' @return A class of predicted values is returned. 
 #' Object type is classification, for detail see randomForest package.
 #' @usage predict_RF(object, newdata, type='response',...)
-#' @examples 
-#' datpath <- system.file('extdata',package = 'statTarget')
-#' statFile <- paste(datpath,'data_example.csv', sep='/')
-#' getFile <- read.csv(statFile,header=TRUE)
-#' rFtest <- rForest(getFile,ntree = 10,times = 5)
-#' predictOutput <- predict_RF(rFtest, getFile[1:19,3:8])
 #' @author Hemi Luan, hemi.luan@gmail.com
 #' @seealso randomForest
 #' @export 

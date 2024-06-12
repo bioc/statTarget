@@ -156,7 +156,7 @@ See ?shiftCor for off-line help
 `Stat File`
 
 
-Expression data includes the sample name, group, and expression data.
+Expression data includes the sample name, group, and expression data with long format.
 
 
 `NA.Filter`
